@@ -1,0 +1,159 @@
+@import "../../colors";
+
+.on {
+  background-color: #00e046;
+}
+
+.error {
+  background-color: #e0595f;
+}
+
+.off {
+  background-color: #ded7d9;
+
+}
+
+.devices-list {
+  margin: 0;
+  padding: 0;
+}
+
+.devices-list-item {
+  list-style: none;
+  border-bottom: 1px solid $color-border;
+  margin: 0;
+  padding: 0;
+}
+
+
+ul {
+  margin: 0;
+  padding: 0;
+  width: 90%;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+.item-timer,
+.item-power,
+.item-name,
+.item-sensor {
+  margin: 0 5px;
+  text-align: center;
+}
+
+
+.item-timer {
+  padding: 2px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.item-power {
+  cursor: pointer;
+
+}
+
+.item-name {
+  width: 100%;
+  text-align: left;
+}
+
+.item-sensor {
+  justify-self: flex-end;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-accent;
+  }
+
+  &:active {
+    color: black;
+  }
+
+}
+
+
+.item-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+
+.row {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0 10px 0;
+}
+
+.col {
+  display: flex;
+  align-items: center;
+
+}
+
+
+// Sensors
+// ====================
+
+.sensor-value {
+  font-size: 25px;
+}
+
+.sensor-unit {
+  margin-top: 0;
+}
+
+
+// Timers
+// ====================
+
+.timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+
+  div {
+  }
+}
+
+
+.reload-timers {
+  display: block;
+  text-align: center;
+  vertical-align: center;
+  font-size: 30px;
+  color: $color-label;
+  cursor: pointer;
+  margin-right: 20px;
+
+  &:hover {
+    color: $color-accent;
+  }
+
+  &:active {
+    color: $color-text;
+  }
+}
+
+.timers {
+  display: block;
+
+}
+
+.row-timer {
+  color: $color-label;
+  margin: 5px;
+
+  span {
+    color: $color-text;
+    margin: 0 5px;
+  }
+}

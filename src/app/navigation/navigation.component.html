@@ -1,0 +1,29 @@
+<div class="navigation">
+    <nav>
+
+        <!-- Lichter -->
+        <a class="nav-tap" routerLink="/lichter" [class.active]="activePage === 'lichter'">
+            <div class="nav-tab-icon">
+                <fa-icon [icon]="lichter"></fa-icon>
+            </div>
+            <div class="nav-tab-name">Lichter</div>
+        </a>
+
+        <!-- Timer -->
+        <a class="nav-tap" routerLink="/timer" [class.active]="activePage === 'timer'">
+            <div class="nav-tab-icon">
+                <fa-icon [icon]="timer"></fa-icon>
+            </div>
+            <div class="nav-tab-name">Schaltuhr</div>
+        </a>
+
+        <!-- Sensoren -->
+        <a class="nav-tap" routerLink="/sensoren" [class.active]="activePage === 'sensoren'">
+            <div class="nav-tab-icon">
+                <fa-icon [icon]="sensoren"></fa-icon>
+            </div>
+            <div class="nav-tab-name">Sensoren</div>
+        </a>
+
+    </nav>
+</div>

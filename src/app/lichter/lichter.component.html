@@ -1,0 +1,143 @@
+<!-- Header -->
+<div class="header">
+    <h1>{{title}}</h1>
+</div>
+
+
+<!-- Main -->
+<div class="main">
+
+    <div class="main-icon">
+
+        <div (click)="togglePowerAll()">
+            <div *ngIf="!powerStatusAllDevices">
+                <div class="icon">
+                    <img src="../../assets/images/icon/power/lightbulb-off.svg" alt="">
+                </div>
+            </div>
+
+            <div *ngIf="powerStatusAllDevices">
+                <div class="icon">
+                    <img src="../../assets/images/icon/power/lightbulb-on.svg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <ul class="devices-list">
+        <li class="devices-list-item" *ngFor="let device of devices">
+            <div class="item-container" [class.offline]="!device.online">
+                <!-- timer -->
+                <div class="item-timer"
+
+                     (click)="toggleTimer(device)">
+
+                    <!-- Timer ON -->
+                    <div *ngIf="device.timer === true">
+                        <div class="icon small">
+                            <img src="../../assets/images/icon/timer/clock-on.svg" alt="">
+                        </div>
+                    </div>
+
+                    <!-- Timer Off -->
+                    <div *ngIf="device.timer === false">
+                        <div class="icon small">
+                            <img src="../../assets/images/icon/timer/clock-off.svg" alt="">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- power -->
+                <div class="item-power"
+
+
+                     (click)="togglePower(device)">
+
+                    <!-- Power ON -->
+                    <div *ngIf="device.power === true">
+                        <div class="icon medium">
+                            <img src="../../assets/images/icon/power/lightbulb-on.svg" alt="">
+                        </div>
+                    </div>
+
+                    <!-- Power Off -->
+                    <div *ngIf="device.power === false">
+                        <div class="icon medium">
+                            <img src="../../assets/images/icon/power/lightbulb-off.svg" alt="">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- name -->
+                <div class="item-name">
+                    {{device.name}}
+                </div>
+
+                <!-- sensor -->
+                <div *ngIf="device.sensor" class="item-sensor"
+                     (click)="toggleDetails(device)">
+                    <fa-icon [icon]="sensorIcon"></fa-icon>
+                </div>
+            </div>
+
+
+            <!-- sensors -->
+            <div class="container-sensor" *ngIf="device.sensor"
+                 [@openClose]="device.sensorDetails ? 'open' : 'closed'"
+                 (@openClose.done)="hideContent($event)"
+                 (@openClose.start)="showContent($event)"
+            >
+
+                <div class="row">
+                    <!-- Temperature -->
+                    <div *ngIf="device.temperature" class="col temp">
+                        <span class="sensor-value">{{device.temperature}}</span>
+                        <span class="sensor-unit">°C</span>
+                    </div>
+
+                    <!-- Humidity -->
+                    <div *ngIf="device.humidity" class="col humi">
+                        <span class="sensor-value">{{device.humidity}}</span>
+                        <span class="sensor-unit">%</span>
+                    </div>
+                </div>
+
+            </div>
+        </li>
+    </ul>
+
+</div>
+
+
+<div class="timer-container">
+
+    <!-- Clock Icon -->
+    <div class="reload-timers icon small" (click)="getTimerStatus()">
+<fa-icon [icon]="timerIcon"></fa-icon>
+    </div>
+
+    <!-- Timer Text -->
+    <div class="timers">
+        <div class="row-timer">von <span>{{sonoffTimers[0].Time}}</span> bis <span>{{sonoffTimers[1].Time}}</span></div>
+        <div class="row-timer">von <span>{{sonoffTimers[2].Time}}</span> bis <span>{{sonoffTimers[3].Time}}</span></div>
+    </div>
+
+
+</div>
+
+<!-- Debug -->
+<div class="debug" [class.active]="debug">
+    <div>
+        <div>{{power}}</div>
+        <div>{{sensor}}</div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+
+</div>
+

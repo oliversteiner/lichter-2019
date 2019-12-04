@@ -1,0 +1,129 @@
+@import "./../../colors";
+
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+}
+
+.row-max {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+}
+
+.row-timer {
+  margin-bottom: 20px;
+}
+
+.time {
+  font-size: 25px;
+  letter-spacing: 0.1em;
+}
+
+
+.timer-label {
+  margin-right: 20px;
+}
+
+.timer-picker{
+  margin-right: 40px;
+}
+
+
+.step {
+  width: 50px;
+  text-align: center;
+}
+
+
+.time-divider {
+  width: 10px;
+  text-align: center;
+}
+
+.time-hh-up,
+.time-mm-up,
+.time-hh-down,
+.time-mm-down {
+  cursor: pointer;
+  color: rgb(102, 102, 102);
+
+  &:hover {
+    color: $color-text;
+  }
+
+  &:active {
+    color: black;
+  }
+}
+
+.cancel,
+.save {
+  cursor: pointer;
+  font-size: 30px;
+  padding: 10px;
+  margin: 10px;
+
+}
+
+.cancel {
+  color: $color-border;
+
+  &:hover {
+    color: $color-error;
+  }
+
+  &:active {
+    color: $color-text;
+  }
+}
+
+.save {
+  color: $color-success;
+
+  &:hover {
+    color: #00e046;
+  }
+
+  &:active {
+    color: $color-text;
+  }
+}
+
+.unselectable {
+  user-select: none;
+}
+
+
+.save-cancel-container {
+  display: none;
+
+  &.active {
+    display: flex;
+  }
+}
+
+
+h2 {
+  position: absolute;
+  background-color: $color-background;
+  display: inline-block;
+  padding: 0 20px;
+  top: -14px;
+  left: 100px;
+
+}
+
+div.trenner {
+  position: relative;
+  margin: 40px;
+  text-align: center;
+  width: 100%;
+  border-top: solid 1px $color-border;
+
+}

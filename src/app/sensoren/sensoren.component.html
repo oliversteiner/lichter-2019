@@ -1,0 +1,61 @@
+<!-- Header -->
+<div class="header">
+
+    <h1>{{title}}</h1>
+
+</div>
+
+<!-- Main -->
+<div class="main">
+
+    <div class="main-icon">
+        <div (click)="getAllData()">
+            <!-- Timer ON -->
+            <div class="icon medium">
+                <img src="../../assets/images/icon/sensor/sensor.svg" alt="">
+            </div>
+        </div>
+    </div>
+
+    <ul>
+        <li *ngFor="let device of  devices ">
+
+            <div *ngIf="device.sensor" [class.offline]="!device.online" class="sensor-container">
+
+                <!-- Label -->
+                <div class="border-label">
+                <h2 class="label" *ngIf="device.place">{{device.place}}</h2>
+                <h2 class="label" *ngIf="!device.place">{{device.name}}</h2>
+                </div>
+
+                <div class="row">
+
+                    <!-- Temperature -->
+                    <div *ngIf="device.temperature" class="col temp">
+                        <span class="sensor-value">{{device.temperature}}</span>
+                        <span class="sensor-unit">°C</span>
+                    </div>
+
+                    <!-- Humidity -->
+                    <div *ngIf="device.humidity" class="col humi">
+                        <span class="sensor-value">{{device.humidity}}</span>
+                        <span class="sensor-unit">%</span>
+                    </div>
+                </div>
+            </div>
+
+        </li>
+    </ul>
+
+
+</div>
+
+
+<!-- Debug -->
+<div class="debug" [class.active]="debug"></div>
+
+<!-- Footer -->
+<div class="footer"></div>
+
+
+

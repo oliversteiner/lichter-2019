@@ -1,0 +1,50 @@
+@import "../../colors";
+
+
+$color-nav: grey;
+$color-nav-hover: orange;
+$color-nav-active: $color-accent;
+
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  align-items: center;
+  margin: 0;
+  padding: 10px 0 0 0;
+}
+
+a {
+  display: inline-block;
+  margin: 10px;
+  padding: 0;
+  list-style: none;
+  min-width: 60px;
+}
+
+.nav-tap {
+  color: $color-nav;
+
+  &:hover {
+    color: $color-nav-hover;
+  }
+
+  &:active {
+    color: $color-nav-active;
+  }
+
+  &.active {
+    color: $color-nav-active;
+  }
+}
+
+.nav-tab-icon {
+  font-size: 25px;
+}
+
+.nav-tab-name {
+  margin-top: 5px;
+  font-size: 15px;
+  font-weight: lighter;
+}

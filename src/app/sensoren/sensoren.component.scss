@@ -1,0 +1,46 @@
+@import "../../colors";
+
+.row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.col {
+  display: flex;
+  margin-right: 20px;
+}
+
+.sensor-container {
+  border: 1px solid $color-border;
+  margin: 0 0 40px ;
+  padding: 20px;
+
+  h2 {
+    display: inline-block;
+    margin: 0 0 20px 0;
+    text-align: left;
+    background-color: $color-background;
+    padding: 0 10px;
+    font-weight: lighter;
+
+  }
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  width: 90%;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+
+
+.border-label {
+  //  display: inline-block;
+  margin-top: -35px;
+}
