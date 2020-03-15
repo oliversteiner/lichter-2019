@@ -22,6 +22,7 @@ https://github.com/arendst/Sonoff-Tasmota
 FontAwesome Pro Icons
 - if you are not using Fontawesome Pro, remove it from package.json - it could break the installation
 
+
 Environment Files
 - copy the file src/environments/environment.ts an rename it to environment.prod.ts
 - copy the file src/environments/environment.ts an rename it to environment.staging.ts

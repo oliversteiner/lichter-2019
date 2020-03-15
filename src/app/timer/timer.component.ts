@@ -7,7 +7,8 @@ import {Device} from '../_models/devices';
 import {DEVICES} from '../../assets/data/devices';
 import {ConfigService} from '../_services/config.service';
 // Icons
-import {faChevronUp, faChevronDown, faCheck, faTimes, faSpinner} from '@fortawesome/pro-light-svg-icons';
+// import {faChevronUp, faChevronDown, faCheck, faTimes, faSpinner} from '@fortawesome/pro-light-svg-icons';
+import {faChevronUp, faChevronDown, faCheck, faTimes, faSpinner} from '@fortawesome/free-solid-svg-icons';
 
 
 interface Timer {

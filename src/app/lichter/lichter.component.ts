@@ -6,8 +6,8 @@ import {IMqttMessage, MqttService} from 'ngx-mqtt';
 import {MqttResponse} from '../_models/mqttResponse';
 import {ConfigService} from '../_services/config.service';
 import {SonoffTimer} from '../_models/sonoffTimer';
-import {faTemperatureFrigid, faClock} from '@fortawesome/pro-light-svg-icons';
-
+// import {faLightbulb, faClock, faTemperatureFrigid as Temperature} from '@fortawesome/pro-solid-svg-icons';
+import {faLightbulb, faClock, faThermometerEmpty as Temperature} from '@fortawesome/free-solid-svg-icons';
 @Component({
     selector: 'app-lichter',
     templateUrl: './lichter.component.html',
@@ -47,7 +47,7 @@ export class LichterComponent implements OnInit {
     public devices: Device[] = DEVICES;
 
     // icons
-    public sensorIcon = faTemperatureFrigid;
+    public sensorIcon = Temperature;
     public timerIcon = faClock;
 
 // MQTT
