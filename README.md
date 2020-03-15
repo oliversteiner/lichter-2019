@@ -18,6 +18,22 @@ https://github.com/arendst/Sonoff-Tasmota
 - Change into project directory `cd lichter-2019`
 - Install dependencies `npm i`
 
+### Important
+FontAwesome Pro Icons
+- if you are not using Fontawesome Pro, remove it from package.json - it could break the installation
+
+Environment Files
+- copy the file src/environments/environment.ts an rename it to environment.prod.ts
+- copy the file src/environments/environment.ts an rename it to environment.staging.ts
+you shuld have now 3 Files in 'src/environments':
+```
+src/environments/
+       - environment.ts
+       - environment.prod.ts
+       - environment.staging.ts
+```
+
+
 ## Run 
 Run `ng serve` for a dev server. 
 Navigate to `http://localhost:4200/`. 
