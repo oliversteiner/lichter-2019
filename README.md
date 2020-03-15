@@ -12,27 +12,26 @@ https://github.com/arendst/Sonoff-Tasmota
 
 
 
-## Install
+## Installation
 - Install Angular 9
 - Clone Project `git clone https://github.com/oliversteiner/lichter-2019.git`
 - Change into project directory `cd lichter-2019`
-- Install dependencies `npm i`
 
-### Important
 FontAwesome Pro Icons
 - if you are not using Fontawesome Pro, remove it from package.json - it could break the installation
 
-
 Environment Files
-- copy the file src/environments/environment.ts an rename it to environment.prod.ts
-- copy the file src/environments/environment.ts an rename it to environment.staging.ts
-you shuld have now 3 Files in 'src/environments':
+- copy the file src/environments/environment.ts and rename it to environment.prod.ts
+- copy the file src/environments/environment.ts and rename it to environment.staging.ts
+
+You should have now 3 files in 'src/environments':
 ```
 src/environments/
        - environment.ts
        - environment.prod.ts
        - environment.staging.ts
 ```
+- Install dependencies: `npm i`
 
 
 ## Run 
