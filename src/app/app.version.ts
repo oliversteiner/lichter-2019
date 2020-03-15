@@ -1,2 +1,2 @@
-// This file was generated on Mi  4 Dez 2019 11:21:40 CET
-export const appVersion = '2.0.0';
+// This file was generated on Sun Mar 15 14:13:43 CET 2020
+export const appVersion = '';
