@@ -20,6 +20,7 @@ import {NavigationComponent} from './navigation/navigation.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {environment} from '../environments/environment';
+import { VisualTimerComponent } from './visual-timer/visual-timer.component';
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
 
@@ -46,6 +47,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
         FooterComponent,
         HeaderComponent,
         NavigationComponent,
+        VisualTimerComponent,
 
     ],
     imports: [
