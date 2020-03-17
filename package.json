@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "version": "./version.sh $npm_package_version"
+    "version": "./version.sh $npm_package_version",
+    "eslint": "eslint 'src/**/*.ts'"
   },
   "private": true,
   "dependencies": {
@@ -37,10 +38,20 @@
     "@angular/cli": "~9.0.6",
     "@angular/compiler-cli": "~9.0.6",
     "@angular/language-service": "~9.0.6",
-    "@types/node": "^12.11.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
     "codelyzer": "^5.1.2",
+    "eslint": "^5.16.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.3.0",
@@ -49,18 +60,19 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
     "protractor": "~5.4.3",
-    "ts-node": "~8.3.0",
-    "tslint": "~5.18.0",
-    "typescript": "~3.7.5",
     "stylelint": "^9.10.1",
     "stylelint-config-prettier": "^4.0.0",
     "stylelint-config-recommended": "^2.2.0",
-    "stylelint-config-standard": "^18.3.0"
+    "stylelint-config-standard": "^18.3.0",
+    "ts-node": "~8.3.0",
+    "tslint": "~5.18.0",
+    "typescript": "~3.7.5",
+    "prettier": "^1.19.1"
   },
-  "optionalDependencies":{
-  "@fortawesome/pro-duotone-svg-icons": "^5.12.1",
-  "@fortawesome/pro-light-svg-icons": "^5.12.1",
-  "@fortawesome/pro-regular-svg-icons": "^5.12.1",
-  "@fortawesome/pro-solid-svg-icons": "^5.12.1"
-}
+  "optionalDependencies": {
+    "@fortawesome/pro-duotone-svg-icons": "^5.12.1",
+    "@fortawesome/pro-light-svg-icons": "^5.12.1",
+    "@fortawesome/pro-regular-svg-icons": "^5.12.1",
+    "@fortawesome/pro-solid-svg-icons": "^5.12.1"
+  }
 }
