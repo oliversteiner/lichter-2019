@@ -1,0 +1,92 @@
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+.date {
+  margin-top: 20px;
+  margin-left: 20px;
+  font-weight: 300;
+}
+
+.sunrise-sunset {
+  margin-top: 20px;
+  margin-right: 40px;
+  font-size: 0.8rem;
+  font-weight: 300;
+  th {
+    text-align: left;
+    padding-right: 10px;
+    font-weight: 300;
+  }
+  td {
+    letter-spacing: 0.05rem;
+  }
+}
+
+.visual svg {
+  width: 100%;
+}
+
+#hour-0:hover,
+#hour-1:hover,
+#hour-2:hover,
+#hour-3:hover,
+#hour-4:hover,
+#hour-5:hover,
+#hour-6:hover,
+#hour-7:hover,
+#hour-8:hover,
+#hour-9:hover,
+#hour-10:hover,
+#hour-11:hover,
+#hour-12:hover,
+#hour-13:hover,
+#hour-14:hover,
+#hour-15:hover,
+#hour-16:hover,
+#hour-17:hover,
+#hour-18:hover,
+#hour-19:hover,
+#hour-20:hover,
+#hour-21:hover,
+#hour-22:hover,
+#hour-23:hover {
+  fill-opacity: 1;
+  cursor: pointer;
+}
+
+#oval-0,
+#oval-1,
+#oval-2,
+#oval-3,
+#oval-4,
+#oval-5,
+#oval-6,
+#oval-7,
+#oval-8,
+#oval-9,
+#oval-10,
+#oval-11,
+#oval-12,
+#oval-13,
+#oval-14,
+#oval-15,
+#oval-16,
+#oval-17,
+#oval-18,
+#oval-19,
+#oval-20,
+#oval-21,
+#oval-22,
+#oval-23 {
+  pointer-events: none;
+}
+
+#label-time-now {
+  font-size: 20px;
+  fill: #fff;
+  font-weight: 300;
+  letter-spacing: 0.05rem;
+}

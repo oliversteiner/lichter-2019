@@ -9,12 +9,20 @@
             <div class="nav-tab-name">Lichter</div>
         </a>
 
+      <!-- Visual Timer -->
+      <a class="nav-tap" routerLink="/timer" [class.active]="activePage === 'timer'">
+        <div class="nav-tab-icon">
+          <fa-icon [icon]="timer"></fa-icon>
+        </div>
+        <div class="nav-tab-name">Schaltuhr</div>
+      </a>
+
         <!-- Timer -->
-        <a class="nav-tap" routerLink="/timer" [class.active]="activePage === 'timer'">
+        <a class="nav-tap" routerLink="/visual" [class.active]="activePage === 'visual'">
             <div class="nav-tab-icon">
                 <fa-icon [icon]="timer"></fa-icon>
             </div>
-            <div class="nav-tab-name">Schaltuhr</div>
+            <div class="nav-tab-name">Visual</div>
         </a>
 
         <!-- Sensoren -->
