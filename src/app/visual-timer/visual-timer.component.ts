@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { getSunrise, getSunset } from 'sunrise-sunset-js'
 
 interface DaySegment {
   id: number
@@ -13,7 +14,11 @@ interface DaySegment {
   styleUrls: ['./visual-timer.component.scss'],
 })
 export class VisualTimerComponent implements OnInit {
-  constructor() {}
+  private sunset: Date
+  private sunrise: Date
+
+  sunsetTime = '00:00'
+  sunriseTime = '00:00'
 
   colorDay = '#F0B046'
   colorNight = '#005FC7'
@@ -168,7 +173,7 @@ export class VisualTimerComponent implements OnInit {
     const y2 = lineHeight
     const cx = ticks
     const cy = 1
-    const time = hours + ':' + minutes
+    const time = this.timeString(d)
 
     console.log('hours', hours)
     console.log('minutes', minutes)
@@ -187,14 +192,37 @@ export class VisualTimerComponent implements OnInit {
     knop.setAttribute('cy', String(cy))
 
     const timeText = document.getElementById('label-time-now')
-    timeText.setAttribute('x', String(ticks - 15))
+    timeText.setAttribute('x', String(ticks - 25))
     timeText.setAttribute('y', '-15')
 
     timeText.textContent = time
   }
 
+  minutes(date) {
+    return (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
+  }
+
+  hours(date) {
+    return (date.getHours() < 10 ? '0' : '') + date.getHours()
+  }
+
+  timeString(date) {
+    const h = this.hours(date)
+    const min = this.minutes(date)
+    return h + ':' + min
+  }
+
   ngOnInit(): void {
     this.setColors()
     this.setTimeMark()
+
+    navigator.geolocation.getCurrentPosition(position => {
+      console.log(getSunset(position.coords.latitude, position.coords.longitude))
+      this.sunset = getSunset(position.coords.latitude, position.coords.longitude)
+      this.sunrise = getSunrise(position.coords.latitude, position.coords.longitude)
+
+      this.sunsetTime = this.timeString(this.sunset)
+      this.sunriseTime = this.timeString(this.sunrise)
+    })
   }
 }

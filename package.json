@@ -30,6 +30,7 @@
     "ngx-mqtt": "^6.13.2",
     "node-sass": "^4.13.1",
     "rxjs": "~6.5.4",
+    "sunrise-sunset-js": "^2.1.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
