@@ -5,7 +5,7 @@ interface DaySegment {
   id: number
   time: number
   active: boolean
-  mode: 'night' | 'dawn-1' | 'dawn-2' | 'day' | 'dusk-1' | 'dusk-2'
+  mode: 'night' | 'sunset-1' | 'sunset-2' | 'day' | 'sunrise-1' | 'sunrise-2'
 }
 
 @Component({
@@ -20,12 +20,12 @@ export class VisualTimerComponent implements OnInit {
   sunsetTime = '00:00'
   sunriseTime = '00:00'
 
-  colorDay = '#F0B046'
   colorNight = '#005FC7'
-  colorDawn1 = '#6F929C'
-  colorDawn2 = '#B2AF8D'
-  colorDusk1 = '#B2AF8D'
-  colorDusk2 = '#6F929C'
+  colorSunrise1 = '#6F929C'
+  colorSunrise2 = '#B2AF8D'
+  colorDay = '#F0B046'
+  colorSunset1 = '#B2AF8D'
+  colorSunset2 = '#6F929C'
 
   circleColorActive = 'white'
   circleColorHover = 'white'
@@ -43,8 +43,8 @@ export class VisualTimerComponent implements OnInit {
     { id: 4, time: 4, active: false, mode: 'night' },
     { id: 5, time: 5, active: false, mode: 'night' },
     { id: 6, time: 6, active: false, mode: 'night' },
-    { id: 7, time: 7, active: false, mode: 'dawn-1' },
-    { id: 8, time: 8, active: false, mode: 'dawn-2' },
+    { id: 7, time: 7, active: false, mode: 'sunrise-1' },
+    { id: 8, time: 8, active: false, mode: 'sunrise-2' },
     { id: 9, time: 9, active: false, mode: 'day' },
     { id: 10, time: 10, active: false, mode: 'day' },
     { id: 11, time: 11, active: false, mode: 'day' },
@@ -53,8 +53,8 @@ export class VisualTimerComponent implements OnInit {
     { id: 14, time: 14, active: false, mode: 'day' },
     { id: 15, time: 15, active: false, mode: 'day' },
     { id: 16, time: 16, active: false, mode: 'day' },
-    { id: 17, time: 17, active: false, mode: 'dusk-1' },
-    { id: 18, time: 18, active: false, mode: 'dusk-2' },
+    { id: 17, time: 17, active: false, mode: 'sunset-1' },
+    { id: 18, time: 18, active: false, mode: 'sunset-2' },
     { id: 19, time: 19, active: false, mode: 'night' },
     { id: 20, time: 20, active: false, mode: 'night' },
     { id: 21, time: 21, active: false, mode: 'night' },
@@ -63,13 +63,10 @@ export class VisualTimerComponent implements OnInit {
   ]
 
   click(nr: number) {
-    console.log('click', nr)
-
     this.toggle(nr)
   }
 
   over(nr: number) {
-    console.log('over', nr)
     if (!this.daySegments[nr].active) {
       document.getElementById('oval-' + nr).style.fill = this.circleColorHover
       document.getElementById('oval-' + nr).style.fillOpacity = this.circleOpacityHover
@@ -77,7 +74,6 @@ export class VisualTimerComponent implements OnInit {
   }
 
   out(nr: number) {
-    console.log('out', nr)
     if (!this.daySegments[nr].active) {
       document.getElementById('oval-' + nr).style.fill = this.circleColorInactive
       document.getElementById('oval-' + nr).style.fillOpacity = this.circleOpacityInactive
@@ -91,9 +87,6 @@ export class VisualTimerComponent implements OnInit {
     // Visual
     document.getElementById('oval-' + nr).style.fill = this.circleColorActive
     document.getElementById('oval-' + nr).style.fillOpacity = this.circleOpacityActive
-
-    // Debug
-    console.log('list', this.daySegments)
   }
 
   setInactive(nr: number) {
@@ -103,9 +96,6 @@ export class VisualTimerComponent implements OnInit {
     // Visual
     document.getElementById('oval-' + nr).style.fill = this.circleColorInactive
     document.getElementById('oval-' + nr).style.fillOpacity = this.circleOpacityInactive
-
-    // Debug
-    console.log('list', this.daySegments)
   }
 
   toggle(nr) {
@@ -117,7 +107,7 @@ export class VisualTimerComponent implements OnInit {
   }
 
   setColor(nr: number, mode) {
-    let color = 'white'
+    let color: string
     switch (mode) {
       case 'day':
         color = this.colorDay
@@ -125,17 +115,17 @@ export class VisualTimerComponent implements OnInit {
       case 'night':
         color = this.colorNight
         break
-      case 'dawn-1':
-        color = this.colorDawn1
+      case 'sunset-1':
+        color = this.colorSunset1
         break
-      case 'dawn-2':
-        color = this.colorDawn2
+      case 'sunset-2':
+        color = this.colorSunset2
         break
-      case 'dusk-1':
-        color = this.colorDusk1
+      case 'sunrise-1':
+        color = this.colorSunrise1
         break
-      case 'dusk-2':
-        color = this.colorDusk2
+      case 'sunrise-2':
+        color = this.colorSunrise2
         break
       default:
         color = 'red'
@@ -145,6 +135,40 @@ export class VisualTimerComponent implements OnInit {
   }
 
   setColors() {
+    const sunriseHour = this.sunrise.getHours()
+    const sunsetHour = this.sunset.getHours()
+
+    // set mode
+    this.daySegments.map((segment: DaySegment) => {
+      let mode: 'night' | 'sunset-1' | 'sunset-2' | 'day' | 'sunrise-1' | 'sunrise-2'
+      if (segment.time < sunriseHour) {
+        // night
+        mode = 'night'
+      } else if (segment.time == sunriseHour) {
+        // sunrise 1
+        mode = 'sunrise-1'
+      } else if (segment.time == sunriseHour + 1) {
+        // sunrise 2
+        mode = 'sunrise-2'
+      } else if (segment.time > sunriseHour + 1 && segment.time < sunsetHour - 1) {
+        // day
+        mode = 'day'
+      } else if (segment.time == sunsetHour - 1) {
+        // sunrise 1
+        mode = 'sunset-1'
+      } else if (segment.time == sunsetHour) {
+        // sunrise 1
+        mode = 'sunset-2'
+      } else if (segment.time > sunsetHour) {
+        // sunrise 1
+        mode = 'night'
+      } else {
+        // day
+      }
+      segment.mode = mode
+    })
+
+    // set Colors
     this.daySegments.map((segment: DaySegment) => {
       this.setColor(segment.id, segment.mode)
     })
@@ -174,10 +198,6 @@ export class VisualTimerComponent implements OnInit {
     const cx = ticks
     const cy = 1
     const time = this.timeString(d)
-
-    console.log('hours', hours)
-    console.log('minutes', minutes)
-    console.log('ticks', ticks)
 
     const line = document.getElementById('line-now')
 
@@ -213,16 +233,15 @@ export class VisualTimerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setColors()
-    this.setTimeMark()
-
     navigator.geolocation.getCurrentPosition(position => {
-      console.log(getSunset(position.coords.latitude, position.coords.longitude))
       this.sunset = getSunset(position.coords.latitude, position.coords.longitude)
       this.sunrise = getSunrise(position.coords.latitude, position.coords.longitude)
 
       this.sunsetTime = this.timeString(this.sunset)
       this.sunriseTime = this.timeString(this.sunrise)
+
+      this.setColors()
+      this.setTimeMark()
     })
   }
 }
