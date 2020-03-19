@@ -1,0 +1,163 @@
+@import './../../colors';
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+.row-left {
+  margin-top: 20px;
+  margin-left: 20px;
+  font-weight: 300;
+}
+
+.timer-status {
+  font-size: 0.8rem;
+  margin-top: 10px;
+}
+
+.sunrise-sunset {
+  margin-top: 20px;
+  margin-right: 40px;
+  font-size: 0.8rem;
+  font-weight: 300;
+  th {
+    text-align: left;
+    padding-right: 10px;
+    font-weight: 300;
+  }
+  td {
+    letter-spacing: 0.05rem;
+  }
+}
+
+.visual-desktop{
+display: none;
+}
+
+.visual-mobile{
+  display: block;
+}
+@media (min-width: 700px){
+  .visual-desktop{
+    display: block;
+  }
+  .visual-mobile{
+    display: none;
+  }
+}
+
+.visual-mobile svg,
+.visual-desktop svg{
+  width: 100%;
+}
+
+.segment {
+  fill-opacity: 0.7;
+  cursor: pointer;
+
+  &:hover {
+    fill-opacity: 1;
+  }
+}
+
+svg .segment{
+  stroke: none;
+}
+
+.decoration,
+.indicator {
+  pointer-events: none;
+}
+
+#label-time-now-circle,
+#label-time-now {
+  font-size: 20px;
+  fill: #fff;
+  font-weight: 300;
+  letter-spacing: 0.05rem;
+}
+#group-now-desktop{
+  border: 1px solid red; /* Debug */
+  display: block;
+  background-color: #e0595f;
+  fill: #e0595f;
+}
+
+.clear,
+.save,
+.cancel {
+  cursor: pointer;
+  font-size: 30px;
+  padding: 10px;
+  margin: 10px 20px;
+  color: $color-border;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    color: $color-warning;
+  }
+
+  &:active {
+    color: $color-text;
+  }
+}
+
+.save {
+  &:hover {
+    color: #00e046;
+  }
+
+  &:active {
+    color: $color-text;
+  }
+}
+.clear {
+  font-size: 20px;
+  &:hover {
+    color: $color-error;
+  }
+}
+
+.unselectable {
+  user-select: none;
+}
+
+.save-cancel-container {
+  // display: none;
+  display: flex;
+  justify-content: center;
+  &.active {
+    display: flex;
+    justify-content: center;
+  }
+}
+.current-timers ul {
+  margin: 0;
+  padding: 0;
+
+  li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.current-timers-item {
+  display: flex;
+  padding-bottom: 5px;
+  .time {
+    margin-right: 20px;
+  }
+}
+
+.success {
+  color: $color-success;
+}
+
+.error {
+  color: $color-error;
+}

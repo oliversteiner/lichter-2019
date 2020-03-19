@@ -177,7 +177,7 @@ export class MqttSandboxComponent implements OnInit, OnDestroy {
         let message = '10';
         this._mqttService.unsafePublish(topic, message, {qos: 1, retain: true});
 
-        // After 2 minutes reduce sensor activation back to 5 Minutes
+        // After 2 getMinutesLeadingZero reduce sensor activation back to 5 Minutes
         setTimeout(() => {
                 message = '300'; // in Seconds
                 this._mqttService.unsafePublish(topic, message, {qos: 1, retain: true});
