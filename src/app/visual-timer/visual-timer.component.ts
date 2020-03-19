@@ -48,6 +48,7 @@ export class VisualTimerComponent implements OnInit {
   private sunrise: Date
   private sunsetTime = '00:00'
   private sunriseTime = '00:00'
+  private currentTime = '00:00'
 
   // Colors for Segments
   private colorDay = '#F0B046'
@@ -83,6 +84,13 @@ export class VisualTimerComponent implements OnInit {
 
     // Navigation
     this._config.setActivePage(this.id)
+
+    // Time
+
+    setInterval(() => {
+      const date = new Date()
+      this.currentTime = this.getTimeStringFromDate(date)
+    }, 1000)
 
     for (const device of this.devices) {
       // get Timer1
@@ -262,40 +270,27 @@ export class VisualTimerComponent implements OnInit {
     const d = new Date()
     const hours = d.getHours()
     const minutes = d.getMinutes()
+
     const ticks = (hours * 60 + minutes) * 0.654 // ticks factor
-    const lineHeight = 160
+    const clock = ((hours % 24) + minutes / 60) * 15
 
-    // position points
-    const x1 = ticks
-    const x2 = ticks
-    const y1 = 1
-    const y2 = lineHeight
-    const cx = ticks
-    const cy = 1
+    const groupNowDesktop = document.getElementById('group-now-desktop')
+    groupNowDesktop.setAttribute('transform', 'translate(' + ticks + ' 0)')
 
-    // Current Time in format hh:mm
-    const timeString = this.getTimeStringFromDate(d)
+    // Circle line
+    const nowCircle = document.getElementById('group-now-mobile')
+    nowCircle.setAttribute('transform', 'rotate(' + clock + ' ,210, 210)')
 
-    // get Line ref
-    const line = document.getElementById('line-now')
+    // Add text "hh:mm" on top half or bottom half
+    const timeTextCircle = document.getElementById('label-time-now-circle')
 
-    // transfom Line to new location
-    line.style.stroke = 'white'
-    line.setAttribute('x1', String(x1))
-    line.setAttribute('x2', String(x2))
-    line.setAttribute('y1', String(y1))
-    line.setAttribute('y2', String(y2))
-
-    // draw some little Circle on top of the line
-    const knop = document.getElementById('line-now-knob')
-    knop.setAttribute('cx', String(cx))
-    knop.setAttribute('cy', String(cy))
-
-    // Add text "hh:mm" on top of the line
-    const timeText = document.getElementById('label-time-now')
-    timeText.setAttribute('x', String(ticks - 25))
-    timeText.setAttribute('y', '-15')
-    timeText.textContent = timeString
+    if (clock > 100 && clock < 270) {
+      // place text on bottom
+      timeTextCircle.setAttribute('transform', 'translate(0 40)')
+    } else {
+      // place text on top
+      timeTextCircle.setAttribute('transform', 'translate(0 -2)')
+    }
   }
 
   getMinutesLeadingZero(date) {
@@ -358,12 +353,9 @@ export class VisualTimerComponent implements OnInit {
       let action = 0
       const timer = this.sonoffTimers.find(timer => timer.Time === stringTime)
       if (timer) {
-        console.log('timer', timer)
         arm = timer.Arm
         action = timer.Action
       }
-      console.log('arm', arm)
-      console.log('actionActive', actionActive)
 
       if (arm == 1) {
         if (action) {
@@ -505,7 +497,6 @@ export class VisualTimerComponent implements OnInit {
     timers.map(timer => {
       if (timer.action == 'on') {
         const time = timer.time
-        console.log(time + ':  on')
         this.sonoffTimers[i] = {
           Arm: 1,
           Mode: 0,
@@ -520,7 +511,6 @@ export class VisualTimerComponent implements OnInit {
       }
       if (timer.action == 'off') {
         const time = timer.time
-        console.log(time + ':  off')
         this.sonoffTimers[i] = {
           Arm: 1,
           Mode: 0,

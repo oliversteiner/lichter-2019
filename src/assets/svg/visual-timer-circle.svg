@@ -153,5 +153,6 @@
       <use fill="#000" filter="url(#filter-4)" xlink:href="#path-3"/>
       <use fill="#FFF" stroke="#979797" xlink:href="#path-3"/>
     </g>
+    <line id="zzz" x1="210" x2="89.5" y1="210" y2="23.5" stroke="#FFF" stroke-linecap="square" stroke-width="2"/>
   </g>
 </svg>

@@ -32,8 +32,24 @@
   }
 }
 
-.visual-desktop svg,
-.visual-mobile svg {
+.visual-desktop{
+display: none;
+}
+
+.visual-mobile{
+  display: block;
+}
+@media (min-width: 700px){
+  .visual-desktop{
+    display: block;
+  }
+  .visual-mobile{
+    display: none;
+  }
+}
+
+.visual-mobile svg,
+.visual-desktop svg{
   width: 100%;
 }
 
@@ -46,15 +62,27 @@
   }
 }
 
+svg .segment{
+  stroke: none;
+}
+
+.decoration,
 .indicator {
   pointer-events: none;
 }
 
+#label-time-now-circle,
 #label-time-now {
   font-size: 20px;
   fill: #fff;
   font-weight: 300;
   letter-spacing: 0.05rem;
+}
+#group-now-desktop{
+  border: 1px solid red; /* Debug */
+  display: block;
+  background-color: #e0595f;
+  fill: #e0595f;
 }
 
 .clear,
