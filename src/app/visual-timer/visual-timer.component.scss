@@ -1,5 +1,4 @@
-@import "./../../colors";
-
+@import './../../colors';
 
 .row {
   display: flex;
@@ -7,10 +6,15 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
 }
-.date {
+.row-left {
   margin-top: 20px;
   margin-left: 20px;
   font-weight: 300;
+}
+
+.timer-status {
+  font-size: 0.8rem;
+  margin-top: 10px;
 }
 
 .sunrise-sunset {
@@ -25,66 +29,24 @@
   }
   td {
     letter-spacing: 0.05rem;
-
   }
 }
 
-.visual svg {
+.visual-desktop svg,
+.visual-mobile svg {
   width: 100%;
 }
 
-#hour-0:hover,
-#hour-1:hover,
-#hour-2:hover,
-#hour-3:hover,
-#hour-4:hover,
-#hour-5:hover,
-#hour-6:hover,
-#hour-7:hover,
-#hour-8:hover,
-#hour-9:hover,
-#hour-10:hover,
-#hour-11:hover,
-#hour-12:hover,
-#hour-13:hover,
-#hour-14:hover,
-#hour-15:hover,
-#hour-16:hover,
-#hour-17:hover,
-#hour-18:hover,
-#hour-19:hover,
-#hour-20:hover,
-#hour-21:hover,
-#hour-22:hover,
-#hour-23:hover {
-  fill-opacity: 1;
+.segment {
+  fill-opacity: 0.7;
   cursor: pointer;
+
+  &:hover {
+    fill-opacity: 1;
+  }
 }
 
-#oval-0,
-#oval-1,
-#oval-2,
-#oval-3,
-#oval-4,
-#oval-5,
-#oval-6,
-#oval-7,
-#oval-8,
-#oval-9,
-#oval-10,
-#oval-11,
-#oval-12,
-#oval-13,
-#oval-14,
-#oval-15,
-#oval-16,
-#oval-17,
-#oval-18,
-#oval-19,
-#oval-20,
-#oval-21,
-#oval-22,
-#oval-23 {
+.indicator {
   pointer-events: none;
 }
 
@@ -95,19 +57,20 @@
   letter-spacing: 0.05rem;
 }
 
-
-
 .clear,
 .save,
 .cancel {
   cursor: pointer;
   font-size: 30px;
   padding: 10px;
-  margin: 10px;
+  margin: 10px 20px;
   color: $color-border;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
-    color: $color-error;
+    color: $color-warning;
   }
 
   &:active {
@@ -116,8 +79,6 @@
 }
 
 .save {
-  color: $color-success;
-
   &:hover {
     color: #00e046;
   }
@@ -126,36 +87,49 @@
     color: $color-text;
   }
 }
+.clear {
+  font-size: 20px;
+  &:hover {
+    color: $color-error;
+  }
+}
 
 .unselectable {
   user-select: none;
 }
 
 .save-cancel-container {
- // display: none;
+  // display: none;
   display: flex;
   justify-content: center;
   &.active {
     display: flex;
     justify-content: center;
-
   }
 }
-.current-timers ul{
+.current-timers ul {
   margin: 0;
   padding: 0;
 
-  li{
+  li {
     margin: 0;
     padding: 0;
     list-style: none;
   }
 }
 
-.current-timers-item{
+.current-timers-item {
   display: flex;
   padding-bottom: 5px;
-  .time{
+  .time {
     margin-right: 20px;
   }
+}
+
+.success {
+  color: $color-success;
+}
+
+.error {
+  color: $color-error;
 }

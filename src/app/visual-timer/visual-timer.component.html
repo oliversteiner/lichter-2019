@@ -1,5 +1,11 @@
 <div class="row">
-  <div class="date">Do. 6. Dez</div>
+  <div class="row-left">
+    <div class="date">Do. 6. Dez</div>
+    <div class="timer-status">
+      <div class="success" *ngIf="globalTimerArm">Timer on</div>
+      <div class="error" *ngIf="!globalTimerArm">Timer off</div>
+    </div>
+  </div>
 
   <table class="sunrise-sunset">
     <tr class="sunrise">
@@ -13,7 +19,7 @@
   </table>
 </div>
 
-<div class="visual">
+<div class="visual-desktop">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -61,7 +67,7 @@
         (click)="click(0)"
         (mouseover)="over(0)"
         (mouseout)="out(0)"
-        id="hour-0"
+        class="segment hour-0"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
@@ -71,7 +77,7 @@
         (click)="click(1)"
         (mouseover)="over(1)"
         (mouseout)="out(1)"
-        id="hour-1"
+        class="segment hour-1"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
@@ -81,7 +87,7 @@
         (click)="click(2)"
         (mouseover)="over(2)"
         (mouseout)="out(2)"
-        id="hour-2"
+        class="segment hour-2"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
@@ -91,7 +97,7 @@
         (click)="click(3)"
         (mouseover)="over(3)"
         (mouseout)="out(3)"
-        id="hour-3"
+        class="segment hour-3"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
@@ -101,7 +107,7 @@
         (click)="click(4)"
         (mouseover)="over(4)"
         (mouseout)="out(4)"
-        id="hour-4"
+        class="segment hour-4"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
@@ -111,7 +117,7 @@
         (click)="click(5)"
         (mouseover)="over(5)"
         (mouseout)="out(5)"
-        id="hour-5"
+        class="segment hour-5"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
@@ -121,7 +127,7 @@
         (click)="click(6)"
         (mouseover)="over(6)"
         (mouseout)="out(6)"
-        id="hour-6"
+        class="segment hour-6"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
@@ -131,7 +137,7 @@
         (click)="click(7)"
         (mouseover)="over(7)"
         (mouseout)="out(7)"
-        id="hour-7"
+        class="segment hour-7"
         fill="#005FC7"
         stroke="#464646"
         d="M325.502875,67.7877719 C312.702353,69.7871956 299.701645,71.9964717 286.500755,74.4156028 L286.500003,206.5 L325.50001,206.5 L325.502875,67.7877719 Z"
@@ -140,7 +146,7 @@
         (click)="click(8)"
         (mouseover)="over(8)"
         (mouseout)="out(8)"
-        id="hour-8"
+        class="segment hour-8"
         fill="#005FC7"
         stroke="#464646"
         d="M364.501713,62.2670316 C351.715064,63.8837305 338.7151,65.7240308 325.501825,67.7879359 L325.500007,206.5 L364.500006,206.5 L364.501713,62.2670316 Z"
@@ -149,7 +155,7 @@
         (click)="click(9)"
         (mouseover)="over(9)"
         (mouseout)="out(9)"
-        id="hour-9"
+        class="segment hour-9"
         fill="#005FC7"
         fill-opacity=".8"
         stroke="#464646"
@@ -159,7 +165,7 @@
         (click)="click(10)"
         (mouseover)="over(10)"
         (mouseout)="out(10)"
-        id="hour-10"
+        class="segment hour-10"
         fill="#005FC7"
         fill-opacity=".8"
         stroke="#464646"
@@ -169,7 +175,7 @@
         (click)="click(11)"
         (mouseover)="over(11)"
         (mouseout)="out(11)"
-        id="hour-11"
+        class="segment hour-11"
         fill="#005FC7"
         fill-opacity=".8"
         stroke="#464646"
@@ -179,7 +185,7 @@
         (click)="click(12)"
         (mouseover)="over(12)"
         (mouseout)="out(12)"
-        id="hour-12"
+        class="segment hour-12"
         fill="#005FC7"
         fill-opacity=".8"
         stroke="#464646"
@@ -189,7 +195,7 @@
         (click)="click(13)"
         (mouseover)="over(13)"
         (mouseout)="out(13)"
-        id="hour-13"
+        class="segment hour-13"
         fill="#005FC7"
         fill-opacity=".8"
         stroke="#464646"
@@ -199,7 +205,7 @@
         (click)="click(14)"
         (mouseover)="over(14)"
         (mouseout)="out(14)"
-        id="hour-14"
+        class="segment hour-14"
         fill="#005FC7"
         fill-opacity=".8"
         stroke="#464646"
@@ -209,7 +215,7 @@
         (click)="click(15)"
         (mouseover)="over(15)"
         (mouseout)="out(15)"
-        id="hour-15"
+        class="segment hour-15"
         fill="#005FC7"
         fill-opacity=".8"
         stroke="#464646"
@@ -219,7 +225,7 @@
         (click)="click(16)"
         (mouseover)="over(16)"
         (mouseout)="out(16)"
-        id="hour-16"
+        class="segment hour-16"
         fill="#005FC7"
         fill-opacity=".8"
         stroke="#464646"
@@ -229,7 +235,7 @@
         (click)="click(17)"
         (mouseover)="over(17)"
         (mouseout)="out(17)"
-        id="hour-17"
+        class="segment hour-17"
         fill="#005FC7"
         stroke="#464646"
         d="M715.49905,77.9433181 C702.342875,75.2379062 689.343366,72.7570781 676.500525,70.500831 L676.500002,206.5 L715.499996,206.5 L715.49905,77.9433181 Z"
@@ -238,7 +244,7 @@
         (click)="click(18)"
         (mouseover)="over(18)"
         (mouseout)="out(18)"
-        id="hour-18"
+        class="segment hour-18"
         fill="#005FC7"
         stroke="#464646"
         d="M754.499046,86.513808 C741.349038,83.4425803 728.348506,80.5856416 715.497453,77.9429897 L715.49999,206.5 L754.499996,206.5 L754.499046,86.513808 Z"
@@ -247,7 +253,7 @@
         (click)="click(19)"
         (mouseover)="over(19)"
         (mouseout)="out(19)"
-        id="hour-19"
+        class="segment hour-19"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
@@ -257,7 +263,7 @@
         (click)="click(20)"
         (mouseover)="over(20)"
         (mouseout)="out(20)"
-        id="hour-20"
+        class="segment hour-20"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
@@ -267,7 +273,7 @@
         (click)="click(21)"
         (mouseover)="over(21)"
         (mouseout)="out(21)"
-        id="hour-21"
+        class="segment hour-21"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
@@ -277,7 +283,7 @@
         (click)="click(22)"
         (mouseover)="over(22)"
         (mouseout)="out(22)"
-        id="hour-22"
+        class="segment hour-22"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
@@ -287,14 +293,14 @@
         (click)="click(23)"
         (mouseover)="over(23)"
         (mouseout)="out(23)"
-        id="hour-23"
+        class="segment hour-23"
         fill="#005FC7"
         fill-opacity=".7"
         stroke="#464646"
         d="M949.499035,143.907219 C936.377184,139.32454 923.376839,134.916083 910.498001,130.681848 L910.499987,206.5 L949.499992,206.5 L949.499035,143.907219 Z"
       />
       <g
-        id="hour-labels"
+        class="segment hour-labels"
         fill="#FFF"
         font-family="Roboto, Sans Serif"
         font-size="20"
@@ -376,7 +382,7 @@
         </text>
       </g>
       <circle
-        id="oval-0"
+        class="indicator oval-0"
         cx="34.5"
         cy="179.5"
         r="8.5"
@@ -387,7 +393,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-1"
+        class="indicator oval-1"
         cx="73.5"
         cy="179.5"
         r="8.5"
@@ -398,7 +404,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-2"
+        class="indicator oval-2"
         cx="112.5"
         cy="179.5"
         r="8.5"
@@ -409,7 +415,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-3"
+        class="indicator oval-3"
         cx="151.5"
         cy="179.5"
         r="8.5"
@@ -420,7 +426,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-4"
+        class="indicator oval-4"
         cx="190.5"
         cy="179.5"
         r="8.5"
@@ -431,7 +437,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-5"
+        class="indicator oval-5"
         cx="229.5"
         cy="179.5"
         r="8.5"
@@ -442,7 +448,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-6"
+        class="indicator oval-6"
         cx="268.5"
         cy="179.5"
         r="8.5"
@@ -453,7 +459,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-7"
+        class="indicator oval-7"
         cx="307.5"
         cy="179.5"
         r="8.5"
@@ -464,7 +470,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-8"
+        class="indicator oval-8"
         cx="346.5"
         cy="179.5"
         r="8.5"
@@ -475,7 +481,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-9"
+        class="indicator oval-9"
         cx="385.5"
         cy="179.5"
         r="8.5"
@@ -486,7 +492,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-10"
+        class="indicator oval-10"
         cx="424.5"
         cy="179.5"
         r="8.5"
@@ -497,7 +503,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-11"
+        class="indicator oval-11"
         cx="463.5"
         cy="179.5"
         r="8.5"
@@ -508,7 +514,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-12"
+        class="indicator oval-12"
         cx="501.5"
         cy="179.5"
         r="8.5"
@@ -519,7 +525,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-13"
+        class="indicator oval-13"
         cx="540.5"
         cy="179.5"
         r="8.5"
@@ -530,7 +536,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-14"
+        class="indicator oval-14"
         cx="579.5"
         cy="179.5"
         r="8.5"
@@ -541,7 +547,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-15"
+        class="indicator oval-15"
         cx="618.5"
         cy="179.5"
         r="8.5"
@@ -552,7 +558,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-16"
+        class="indicator oval-16"
         cx="657.5"
         cy="179.5"
         r="8.5"
@@ -563,7 +569,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-17"
+        class="indicator oval-17"
         cx="696.5"
         cy="179.5"
         r="8.5"
@@ -574,7 +580,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-18"
+        class="indicator oval-18"
         cx="735.5"
         cy="179.5"
         r="8.5"
@@ -585,7 +591,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-19"
+        class="indicator oval-19"
         cx="774.5"
         cy="179.5"
         r="8.5"
@@ -596,7 +602,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-20"
+        class="indicator oval-20"
         cx="813.5"
         cy="179.5"
         r="8.5"
@@ -607,7 +613,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-21"
+        class="indicator oval-21"
         cx="852.5"
         cy="179.5"
         r="8.5"
@@ -618,7 +624,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-22"
+        class="indicator oval-22"
         cx="891.5"
         cy="179.5"
         r="8.5"
@@ -629,7 +635,7 @@
         stroke-width="2"
       />
       <circle
-        id="oval-23"
+        class="indicator oval-23"
         cx="930.5"
         cy="179.5"
         r="8.5"
@@ -662,7 +668,364 @@
       </g>
     </g>
   </svg>
+</div>
 
+<div class="visual-mobile">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="420"
+    height="420"
+    viewBox="0 0 420 420"
+    style="background:#464646"
+  >
+    <defs>
+      <path
+        id="path-10"
+        d="M166.462312,325 C173.343385,325 179.79439,323.494049 185.815327,320.482143 C191.836264,317.470237 196.897821,313.294643 201,307.955357 C193.192631,309.461308 185.749163,308.63988 178.669598,305.491071 C171.590032,302.342263 165.866834,297.447916 161.5,290.808036 C157.133166,284.168156 154.949749,276.741071 154.949749,268.526786 C154.949749,261.270834 156.736181,254.528273 160.309045,248.299107 C163.88191,242.069942 168.645729,237.244049 174.600503,233.821429 C171.953937,233.273808 169.241206,233 166.462312,233 C158.390284,233 150.946816,235.053571 144.13191,239.160714 C137.317003,243.267857 131.924623,248.846727 127.954774,255.897321 C123.984925,262.947916 122,270.648808 122,279 C122,287.351192 123.984925,295.052084 127.954774,302.102679 C131.924623,309.153273 137.317003,314.732143 144.13191,318.839286 C150.946816,322.946429 158.390284,325 166.462312,325 Z"
+      />
+      <filter id="filter-2" width="119.9%" height="116.3%" x="-9.5%" y="-6%" filterUnits="objectBoundingBox">
+        <feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1" />
+        <feOffset dy="2" in="shadowSpreadOuter1" result="shadowOffsetOuter1" />
+        <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2" />
+        <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1" />
+        <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" />
+      </filter>
+      <path
+        id="path-30"
+        d="M287.779631,143.864035 C288.399502,143.864035 288.786918,143.590277 288.941887,143.042763 C289.096855,142.49525 288.941887,142.065057 288.476985,141.752193 L278.714039,133.304825 C276.699461,131.584066 275.692175,129.315789 275.692175,126.5 C275.692175,123.684211 276.699461,121.415934 278.714039,119.695175 L288.476985,111.247807 C288.941887,110.934943 289.096855,110.50475 288.941887,109.957237 C288.786918,109.409723 288.399502,109.135965 287.779631,109.135965 L274.994821,108.197368 C272.360377,108.040934 270.229574,106.828583 268.602416,104.560307 C266.975259,102.292031 266.471613,99.8282152 267.091484,97.1688596 L270.113348,84.497807 C270.268317,84.0285088 270.113348,83.5983199 269.648446,83.2072368 C269.183544,82.8161538 268.718642,82.777048 268.25374,83.0899123 L257.328538,89.8947368 C255.004027,91.4590655 252.524548,91.8110392 249.890103,90.9506579 C247.255659,90.0902766 245.473533,88.3304082 244.543728,85.6710526 L239.662255,73.7039474 C239.507287,73.2346491 239.119871,73 238.5,73 C237.880129,73 237.492713,73.2346491 237.337745,73.7039474 L232.456272,85.6710526 C231.526467,88.3304082 229.744341,90.0902766 227.109897,90.9506579 C224.475452,91.8110392 221.995973,91.4590655 219.671462,89.8947368 L208.74626,83.0899123 C208.281358,82.777048 207.816456,82.8161538 207.351554,83.2072368 C206.886652,83.5983199 206.731683,84.0285088 206.886652,84.497807 L209.908516,97.1688596 C210.528387,99.8282152 210.063484,102.292031 208.513809,104.560307 C206.964134,106.828583 204.794592,108.040934 202.005179,108.197368 L189.220369,109.135965 C188.600498,109.135965 188.213082,109.409723 188.058113,109.957237 C187.903145,110.50475 188.058113,110.934943 188.523015,111.247807 L198.285961,119.695175 C200.300539,121.415934 201.307825,123.684211 201.307825,126.5 C201.307825,129.315789 200.300539,131.584066 198.285961,133.304825 L188.523015,141.752193 C188.058113,142.065057 187.903145,142.49525 188.058113,143.042763 C188.213082,143.590277 188.600498,143.864035 189.220369,143.864035 L202.005179,144.802632 C204.639623,144.959066 206.770426,146.171417 208.397584,148.439693 C210.024741,150.707969 210.528387,153.171785 209.908516,155.83114 L206.886652,168.502193 C206.731683,168.971491 206.886652,169.40168 207.351554,169.792763 C207.816456,170.183846 208.281358,170.222952 208.74626,169.910088 L219.671462,163.105263 C221.995973,161.540934 224.475452,161.188961 227.109897,162.049342 C229.744341,162.909723 231.526467,164.669592 232.456272,167.328947 L237.337745,179.296053 C237.492713,179.765351 237.880129,180 238.5,180 C239.119871,180 239.507287,179.765351 239.662255,179.296053 L244.543728,167.328947 C245.473533,164.669592 247.255659,162.909723 249.890103,162.049342 C252.524548,161.188961 255.004027,161.540934 257.328538,163.105263 L268.25374,169.910088 C268.718642,170.222952 269.183544,170.183846 269.648446,169.792763 C270.113348,169.40168 270.268317,168.971491 270.113348,168.502193 L267.091484,155.83114 C266.471613,153.171785 266.936516,150.707969 268.486191,148.439693 C270.035866,146.171417 272.205408,144.959066 274.994821,144.802632 L287.779631,143.864035 Z"
+      />
+      <filter id="filter-4" width="114.9%" height="114%" x="-7.4%" y="-5.1%" filterUnits="objectBoundingBox">
+        <feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1" />
+        <feOffset dy="2" in="shadowSpreadOuter1" result="shadowOffsetOuter1" />
+        <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2" />
+        <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1" />
+        <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" />
+      </filter>
+    </defs>
+    <g id="visual-timer-circle" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1">
+      <rect width="420" height="420" fill="#464646" />
+      <g id="segments-circle" fill-rule="nonzero" transform="translate(35.789 35.63)">
+        <polygon
+          (click)="click(0)"
+          (mouseover)="over(0)"
+          (mouseout)="out(0)"
+          class="segment hour-0"
+          fill="#366292"
+          points="174.189 174.895 195.742 348.459 150.446 348.372"
+        />
+        <polygon
+          (click)="click(1)"
+          (mouseover)="over(1)"
+          (mouseout)="out(1)"
+          class="segment hour-1"
+          fill="#366292"
+          points="174.357 174.357 150.069 348.11 106.103 336.281"
+        />
+        <polygon
+          (click)="click(2)"
+          (mouseover)="over(2)"
+          (mouseout)="out(2)"
+          class="segment hour-2"
+          fill="#366292"
+          points="174.357 174.357 105.926 335.904 66.52 313.098"
+        />
+        <polygon
+          (click)="click(3)"
+          (mouseover)="over(3)"
+          (mouseout)="out(3)"
+          class="segment hour-3"
+          fill="#366292"
+          points="174.357 174.358 66.447 312.688 34.286 280.461"
+        />
+        <polygon
+          (click)="click(4)"
+          (mouseover)="over(4)"
+          (mouseout)="out(4)"
+          class="segment hour-4"
+          fill="#366292"
+          points="174.357 174.357 34.321 280.045 11.597 240.592"
+        />
+        <polygon
+          (click)="click(5)"
+          (mouseover)="over(5)"
+          (mouseout)="out(5)"
+          class="segment hour-5"
+          fill="#366292"
+          points="174.357 174.357 11.739 240.2 0 196.21"
+        />
+        <polygon
+          (click)="click(6)"
+          (mouseover)="over(6)"
+          (mouseout)="out(6)"
+          class="segment hour-6"
+          fill="#366292"
+          points="174.334 174.697 .769 196.251 .856 150.954"
+        />
+        <polygon
+          (click)="click(7)"
+          (mouseover)="over(7)"
+          (mouseout)="out(7)"
+          class="segment hour-7"
+          fill="#6F929C"
+          points="174.357 174.357 .604 150.069 12.433 106.103"
+        />
+        <polygon
+          (click)="click(8)"
+          (mouseover)="over(8)"
+          (mouseout)="out(8)"
+          class="segment hour-8"
+          fill="#B2AF8D"
+          points="174.357 174.357 12.811 105.926 35.616 66.52"
+        />
+        <polygon
+          (click)="click(9)"
+          (mouseover)="over(9)"
+          (mouseout)="out(9)"
+          class="segment hour-9"
+          fill="#D6AA62"
+          points="174.357 174.358 36.027 66.447 68.254 34.286"
+        />
+        <polygon
+          (click)="click(10)"
+          (mouseover)="over(10)"
+          (mouseout)="out(10)"
+          class="segment hour-10"
+          fill="#D6AA62"
+          points="174.357 174.357 68.67 34.321 108.123 11.597"
+        />
+        <polygon
+          (click)="click(11)"
+          (mouseover)="over(11)"
+          (mouseout)="out(11)"
+          class="segment hour-11"
+          fill="#D6AA62"
+          points="174.357 174.357 108.515 11.739 152.505 0"
+        />
+        <polygon
+          (click)="click(12)"
+          (mouseover)="over(12)"
+          (mouseout)="out(12)"
+          class="segment hour-12"
+          fill="#D6AA62"
+          points="174.514 173.842 152.96 .278 198.257 .364"
+        />
+        <polygon
+          (click)="click(13)"
+          (mouseover)="over(13)"
+          (mouseout)="out(13)"
+          class="segment hour-13"
+          fill="#D6AA62"
+          points="174.357 174.357 198.646 .604 242.612 12.433"
+        />
+        <polygon
+          (click)="click(14)"
+          (mouseover)="over(14)"
+          (mouseout)="out(14)"
+          class="segment hour-14"
+          fill="#D6AA62"
+          points="174.357 174.357 242.789 12.811 282.195 35.616"
+        />
+        <polygon
+          (click)="click(15)"
+          (mouseover)="over(15)"
+          (mouseout)="out(15)"
+          class="segment hour-15"
+          fill="#D6AA62"
+          points="174.357 174.358 282.268 36.027 314.429 68.254"
+        />
+        <polygon
+          (click)="click(16)"
+          (mouseover)="over(16)"
+          (mouseout)="out(16)"
+          class="segment hour-16"
+          fill="#D6AA62"
+          points="174.357 174.357 314.394 68.67 337.118 108.123"
+        />
+        <polygon
+          (click)="click(17)"
+          (mouseover)="over(17)"
+          (mouseout)="out(17)"
+          class="segment hour-17"
+          fill="#B2AF8D"
+          points="174.357 174.357 336.976 108.515 348.715 152.505"
+        />
+        <polygon
+          (click)="click(18)"
+          (mouseover)="over(18)"
+          (mouseout)="out(18)"
+          class="segment hour-18"
+          fill="#6F929C"
+          points="174.369 174.039 347.933 152.486 347.847 197.782"
+        />
+        <polygon
+          (click)="click(19)"
+          (mouseover)="over(19)"
+          (mouseout)="out(19)"
+          class="segment hour-19"
+          fill="#366292"
+          points="174.357 174.357 348.11 198.646 336.281 242.612"
+        />
+        <polygon
+          (click)="click(20)"
+          (mouseover)="over(20)"
+          (mouseout)="out(20)"
+          class="segment hour-20"
+          fill="#366292"
+          points="174.357 174.357 335.904 242.789 313.098 282.195"
+        />
+        <polygon
+          (click)="click(21)"
+          (mouseover)="over(21)"
+          (mouseout)="out(21)"
+          class="segment hour-21"
+          fill="#366292"
+          points="174.357 174.358 312.688 282.268 280.461 314.429"
+        />
+        <polygon
+          (click)="click(22)"
+          (mouseover)="over(22)"
+          (mouseout)="out(22)"
+          class="segment hour-22"
+          fill="#366292"
+          points="174.357 174.357 280.045 314.394 240.592 337.118"
+        />
+        <polygon
+          (click)="click(23)"
+          (mouseover)="over(23)"
+          (mouseout)="out(23)"
+          class="segment hour-23"
+          fill="#366292"
+          points="174.357 174.357 240.2 336.976 196.21 348.715"
+        />
+      </g>
+      <g
+        id="buttons"
+        fill="#202020"
+        fill-opacity=".2"
+        stroke="#000"
+        stroke-opacity=".16"
+        stroke-width="2"
+        transform="translate(48 48)"
+      >
+        <circle class="indicator oval-0" cx="162.5" cy="316.5" r="8.5" />
+        <circle class="indicator oval-1" cx="122.642" cy="311.253" r="8.5" />
+        <circle class="indicator oval-2" cx="85.5" cy="295.868" r="8.5" />
+        <circle class="indicator oval-3" cx="53.606" cy="271.394" r="8.5" />
+        <circle class="indicator oval-4" cx="29.132" cy="239.5" r="8.5" />
+        <circle class="indicator oval-5" cx="13.747" cy="202.358" r="8.5" />
+        <circle class="indicator oval-6" cx="8.5" cy="162.5" r="8.5" />
+        <circle class="indicator oval-7" cx="13.747" cy="122.642" r="8.5" />
+        <circle class="indicator oval-8" cx="29.132" cy="85.5" r="8.5" />
+        <circle class="indicator oval-9" cx="53.606" cy="53.606" r="8.5" />
+        <circle class="indicator oval-10" cx="85.5" cy="29.132" r="8.5" />
+        <circle class="indicator oval-11" cx="122.642" cy="13.747" r="8.5" />
+        <circle class="indicator oval-12" cx="162.5" cy="8.5" r="8.5" />
+        <circle class="indicator oval-13" cx="202.358" cy="13.747" r="8.5" />
+        <circle class="indicator oval-14" cx="239.5" cy="29.132" r="8.5" />
+        <circle class="indicator oval-15" cx="271.394" cy="53.606" r="8.5" />
+        <circle class="indicator oval-16" cx="295.868" cy="85.5" r="8.5" />
+        <circle class="indicator oval-17" cx="311.253" cy="122.642" r="8.5" />
+        <circle class="indicator oval-18" cx="316.5" cy="162.5" r="8.5" />
+        <circle class="indicator oval-19" cx="311.253" cy="202.358" r="8.5" />
+        <circle class="indicator oval-20" cx="295.868" cy="239.5" r="8.5" />
+        <circle class="indicator oval-21" cx="271.394" cy="271.394" r="8.5" />
+        <circle class="indicator oval-22" cx="239.5" cy="295.868" r="8.5" />
+        <circle class="indicator oval-23" cx="202.358" cy="311.253" r="8.5" />
+      </g>
+      <g
+        id="labels"
+        fill="#FFF"
+        font-family="Roboto-Light, Roboto"
+        font-size="19"
+        font-weight="300"
+        transform="translate(3 2)"
+      >
+        <text id="label-0">
+          <tspan x="196.423" y="408">00</tspan>
+        </text>
+        <text id="label-1" opacity=".547">
+          <tspan x="143.697" y="401">01</tspan>
+        </text>
+        <text id="label-2">
+          <tspan x="96.697" y="381">02</tspan>
+        </text>
+        <text id="label-3" opacity=".547">
+          <tspan x="57.697" y="348">03</tspan>
+        </text>
+        <text id="label-4">
+          <tspan x="26.697" y="308">04</tspan>
+        </text>
+        <text id="label-5" opacity=".55">
+          <tspan x="9.697" y="265">05</tspan>
+        </text>
+        <text id="label-6">
+          <tspan x="1.697" y="214">06</tspan>
+        </text>
+        <text id="label-7" opacity=".55">
+          <tspan x="9.697" y="162">07</tspan>
+        </text>
+        <text id="label-8">
+          <tspan x="26.697" y="115">08</tspan>
+        </text>
+        <text id="label-9" opacity=".547">
+          <tspan x="58.697" y="74">09</tspan>
+        </text>
+        <text id="label-10">
+          <tspan x="98.697" y="48">10</tspan>
+        </text>
+        <text id="label-11" opacity=".547">
+          <tspan x="147.97" y="27">11</tspan>
+        </text>
+        <text id="label-12">
+          <tspan x="197.97" y="20">12</tspan>
+        </text>
+        <text id="label-13" opacity=".547">
+          <tspan x="249.97" y="30">13</tspan>
+        </text>
+        <text id="label-14">
+          <tspan x="293.97" y="48">14</tspan>
+        </text>
+        <text id="label-15" opacity=".547">
+          <tspan x="334.97" y="80">15</tspan>
+        </text>
+        <text id="label-16">
+          <tspan x="365.97" y="122">16</tspan>
+        </text>
+        <text id="label-17" opacity=".55">
+          <tspan x="383.97" y="170">17</tspan>
+        </text>
+        <text id="label-18">
+          <tspan x="388.97" y="215">18</tspan>
+        </text>
+        <text id="label-19" opacity=".55">
+          <tspan x="381.97" y="267">19</tspan>
+        </text>
+        <text id="label-20">
+          <tspan x="363.697" y="312">20</tspan>
+        </text>
+        <text id="label-21" opacity=".547">
+          <tspan x="333.97" y="353">21</tspan>
+        </text>
+        <text id="label-22">
+          <tspan x="292.97" y="382">22</tspan>
+        </text>
+        <text id="label-23" opacity=".547">
+          <tspan x="245.97" y="401">23</tspan>
+        </text>
+      </g>
+      <g id="moon-3" opacity=".287">
+        <use fill="#000" filter="url(#filter-2)" xlink:href="#path-10" />
+        <use fill="#FFF" stroke="#979797" xlink:href="#path-10" />
+      </g>
+      <g id="sun-3" opacity=".287">
+        <use fill="#000" filter="url(#filter-4)" xlink:href="#path-30" />
+        <use fill="#FFF" stroke="#979797" xlink:href="#path-30" />
+      </g>
+    </g>
+  </svg>
+</div>
+<div>
   <!-- Save and Cancel -->
   <div class="row-max save-cancel-container" [class.active]="edit">
     <div class="row">
@@ -685,7 +1048,7 @@
 </div>
 
 <!-- Debug Current Timers -->
-<div class="current-timers">
+<div class="current-timers" *ngIf="debug">
   <ul>
     <li *ngFor="let timer of sonoffTimers">
       <!-- Timer armed -->

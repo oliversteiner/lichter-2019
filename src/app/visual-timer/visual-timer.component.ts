@@ -3,6 +3,12 @@ import { getSunrise, getSunset } from 'sunrise-sunset-js'
 import { SonoffTimer } from '../_models/sonoffTimer'
 // import { faCheck, faTimes, faSpinner, faTrash} from '@fortawesome/pro-light-svg-icons';
 import { faCheck, faTimes, faSpinner, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { IMqttMessage, MqttService } from 'ngx-mqtt'
+import { ConfigService } from '../_services/config.service'
+import { Device } from '../_models/devices'
+import { DEVICES } from '../../assets/data/devices'
+import { MqttResponse } from '../_models/mqttResponse'
+import { Subscription } from 'rxjs'
 
 interface DaySegment {
   id: number
@@ -11,42 +17,107 @@ interface DaySegment {
   mood: 'night' | 'sunset-1' | 'sunset-2' | 'day' | 'sunrise-1' | 'sunrise-2'
 }
 
+interface Timer {
+  time: string
+  action: 'on' | 'off' | 'unchanged'
+}
+
 @Component({
   selector: 'app-visual-timer',
   templateUrl: './visual-timer.component.html',
   styleUrls: ['./visual-timer.component.scss'],
 })
 export class VisualTimerComponent implements OnInit {
+  // Settings
+  private debug: boolean
+  private edit = false
+  private loading: boolean
+  private id = 'visual'
+
+  // Devices from Data
+  devices: Device[] = DEVICES
+
+  // Icons
+  private iconSave = faCheck
+  private iconCancel = faTimes
+  private iconClear = faTrash
+  private iconSpinner = faSpinner
+
+  // Times
   private sunset: Date
   private sunrise: Date
+  private sunsetTime = '00:00'
+  private sunriseTime = '00:00'
 
-  // icons
-  iconSave = faCheck
-  iconCancel = faTimes
-  iconClear = faTrash
-  iconSpinner = faSpinner
+  // Colors for Segments
+  private colorDay = '#F0B046'
+  private colorNight = '#005FC7'
+  private colorSunrise1 = '#6F929C'
+  private colorSunrise2 = '#B2AF8D'
+  private colorSunset1 = '#B2AF8D'
+  private colorSunset2 = '#6F929C'
 
-  sunsetTime = '00:00'
-  sunriseTime = '00:00'
+  // Colors for Indicators
+  private circleColorActive = 'white'
+  private circleColorHover = 'white'
+  private circleColorInactive = '#202020'
 
-  colorDay = '#F0B046'
-  colorNight = '#005FC7'
-  colorSunrise1 = '#6F929C'
-  colorSunrise2 = '#B2AF8D'
-  colorSunset1 = '#B2AF8D'
-  colorSunset2 = '#6F929C'
+  // Opacity for Indicators
+  private circleOpacityActive = '1'
+  private circleOpacityHover = '0.5'
+  private circleOpacityInactive = '0.2'
 
-  circleColorActive = 'white'
-  circleColorHover = 'white'
-  circleColorInactive = '#202020'
-
-  circleOpacityActive = '1'
-  circleOpacityHover = '0.5'
-  circleOpacityInactive = '0.2'
-
-  daySegments: DaySegment[] = []
+  // Arrays
+  private daySegments: DaySegment[] = []
   private sonoffTimers: SonoffTimer[]
-  private edit = false
+  private subscription_result: Subscription
+  private result: string
+  private globalTimerArm: number
+
+  constructor(private _mqttService: MqttService, private _config: ConfigService) {
+    // Debug
+    this.debug = this._config.debug
+
+    // Loading
+    this.loading = true
+
+    // Navigation
+    this._config.setActivePage(this.id)
+
+    for (const device of this.devices) {
+      // get Timer1
+
+      // Result Response
+      this.subscription_result = this._mqttService
+        .observe('stat/' + device.id + '/RESULT')
+        .subscribe((message: IMqttMessage) => {
+          this.result = message.payload.toString()
+          console.log('result', JSON.parse(this.result))
+
+          const mqttResponse: MqttResponse = JSON.parse(this.result)
+
+          // Global Timer Arm
+          if (mqttResponse.Timers && mqttResponse.Timers === 'ON') {
+            this.globalTimerArm = 1
+          }
+
+          if (mqttResponse.Timers && mqttResponse.Timers === 'OFF') {
+            this.globalTimerArm = 0
+          }
+
+          // Load all 16 Timers
+          for (let i = 0; i <= 16; i++) {
+            const timerNumber = i + 1
+            const timerName = 'Timer' + timerNumber
+
+            if (mqttResponse.Timers1 && mqttResponse.Timers1[timerName]) {
+              this.sonoffTimers[i] = mqttResponse.Timers1[timerName]
+              this.loading = false
+            }
+          }
+        })
+    }
+  }
 
   click(nr: number) {
     this.edit = true
@@ -55,15 +126,23 @@ export class VisualTimerComponent implements OnInit {
 
   over(nr: number) {
     if (!this.daySegments[nr].active) {
-      document.getElementById('oval-' + nr).style.fill = this.circleColorHover
-      document.getElementById('oval-' + nr).style.fillOpacity = this.circleOpacityHover
+      const elements = document.querySelectorAll('.oval-' + nr)
+
+      elements.forEach((element: SVGElement) => {
+        element.style.fill = this.circleColorHover
+        element.style.fillOpacity = this.circleOpacityHover
+      })
     }
   }
 
   out(nr: number) {
     if (!this.daySegments[nr].active) {
-      document.getElementById('oval-' + nr).style.fill = this.circleColorInactive
-      document.getElementById('oval-' + nr).style.fillOpacity = this.circleOpacityInactive
+      const elements = document.querySelectorAll('.oval-' + nr)
+
+      elements.forEach((element: SVGElement) => {
+        element.style.fill = this.circleColorInactive
+        element.style.fillOpacity = this.circleOpacityInactive
+      })
     }
   }
 
@@ -72,8 +151,11 @@ export class VisualTimerComponent implements OnInit {
     this.daySegments[nr].active = true
 
     // Visual
-    document.getElementById('oval-' + nr).style.fill = this.circleColorActive
-    document.getElementById('oval-' + nr).style.fillOpacity = this.circleOpacityActive
+    const elements = document.querySelectorAll('.oval-' + nr)
+    elements.forEach((element: SVGElement) => {
+      element.style.fill = this.circleColorActive
+      element.style.fillOpacity = this.circleOpacityActive
+    })
   }
 
   setInactive(nr: number) {
@@ -81,8 +163,11 @@ export class VisualTimerComponent implements OnInit {
     this.daySegments[nr].active = false
 
     // Visual
-    document.getElementById('oval-' + nr).style.fill = this.circleColorInactive
-    document.getElementById('oval-' + nr).style.fillOpacity = this.circleOpacityInactive
+    const elements = document.querySelectorAll('.oval-' + nr)
+    elements.forEach((element: SVGElement) => {
+      element.style.fill = this.circleColorInactive
+      element.style.fillOpacity = this.circleOpacityInactive
+    })
   }
 
   toggleActivity(nr) {
@@ -118,7 +203,10 @@ export class VisualTimerComponent implements OnInit {
         color = 'red'
     }
 
-    document.getElementById('hour-' + nr).style.fill = color
+    const elements = document.querySelectorAll('.hour-' + nr)
+    elements.forEach((element: SVGAElement) => {
+      element.style.fill = color
+    })
   }
 
   setAllSegmentColors() {
@@ -367,7 +455,7 @@ export class VisualTimerComponent implements OnInit {
   setTimers() {
     let previousActive = false
     let action: 'on' | 'off' | 'unchanged'
-    let timers: [{ time: string; action: 'on' | 'off' | 'unchanged' }]
+    let timers: Timer[] = []
 
     // passes through all segments and creates a serial sequence of action commands
     this.daySegments.map(segment => {
@@ -403,7 +491,7 @@ export class VisualTimerComponent implements OnInit {
       } else {
       }
 
-      const timer = {
+      const timer: Timer = {
         time: this.getLeadingZero(segment.time) + ':00',
         action: action,
       }
@@ -471,7 +559,6 @@ export class VisualTimerComponent implements OnInit {
     this.updateSegments()
   }
 
-
   /**
    * save()
    *
@@ -484,7 +571,19 @@ export class VisualTimerComponent implements OnInit {
     this.setTimers()
     localStorage.setItem('sonoffTimers', JSON.stringify(this.sonoffTimers))
 
-    //  this.publishSonoffTimers()
+    this.publishSonoffTimers()
+  }
+
+  publishSonoffTimers() {
+    this.sonoffTimers.map((timer: SonoffTimer, index) => {
+      this.publishSonoffTimer(index + 1, timer)
+    })
+  }
+
+  publishSonoffTimer(timerNumber: number, data: SonoffTimer): void {
+    const topic = 'cmnd/sonoffs/Timer' + timerNumber
+    const message = JSON.stringify(data)
+    this._mqttService.unsafePublish(topic, message, { qos: 1, retain: true })
   }
 
   /**
