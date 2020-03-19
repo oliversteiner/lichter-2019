@@ -320,87 +320,84 @@ export class VisualTimerComponent implements OnInit {
 
   setTimers() {
     console.log('sonoffTimers', this.sonoffTimers)
-
+    let timers = []
     let previousActive = false
-    let timerCount = 0
+    let action: 'on' | 'off' | 'unchanged'
     this.daySegments.map(segment => {
-      // Case 1
-      // not > active
-      // activate timer at this time
-
-      // Case 2
-      // active > active
-      // change nothing
-
-      // Case 3
-      // active > not
-      // deactivate timer at this time
-
-      // Case 4
-      // not > not
-      // change nothing
-
-      //  First ans last segment
-      if (segment.id === 0 || segment.id === 23) {
-        previousActive = segment.active
-        const timer: SonoffTimer = {
-          Arm: Number(segment.active),
-          Mode: 0,
-          Time: this.getLeadingZero(segment.time) + ':00',
-          Window: 5,
-          Days: '1111111',
-          Repeat: 1,
-          Output: 1,
-          Action: Number(segment.active),
+      // first
+      if (segment.id == 0) {
+        if (segment.active) {
+          previousActive = true
+          action = 'on'
+        } else {
+          action = 'off'
         }
-        this.sonoffTimers[0] = timer
-      } else if (segment.active === true && previousActive === false) {
-        // Case 1
-        // not > active
-        // activate timer at this time
-        timerCount++
+      }
+
+      // inactive > active
+      else if (previousActive == false && segment.active) {
         previousActive = true
-        const timer: SonoffTimer = {
+        action = 'on'
+      }
+      // active > active
+      else if (previousActive == true && segment.active) {
+        previousActive = true
+        action = 'unchanged'
+      }
+      // active > inactive
+      else if (previousActive == true && !segment.active) {
+        previousActive = false
+        action = 'off'
+      }
+      // inactive > inactive
+      else if (previousActive == false && !segment.active) {
+        previousActive = false
+        action = 'unchanged'
+      } else {
+      }
+
+      const timer = {
+        time: this.getLeadingZero(segment.time) + ':00',
+        action: action,
+      }
+      timers.push(timer)
+    })
+    console.log('timers', timers)
+
+    this.resetSonoffTimers()
+    let i = 0
+    timers.map(timer => {
+      if (timer.action == 'on') {
+        const time = timer.time
+        console.log(time + ':  on')
+        this.sonoffTimers[i] = {
           Arm: 1,
           Mode: 0,
-          Time: this.getLeadingZero(segment.time) + ':00',
-          Window: 5,
+          Time: timer.time,
+          Window: 0,
           Days: '1111111',
           Repeat: 1,
           Output: 1,
           Action: 1,
         }
-        this.sonoffTimers[timerCount] = timer
-      } else if (segment.active === true && previousActive === true) {
-        // Case 2 : active > active
-        // change nothing
-        previousActive = true
-      } else if (segment.active === false && previousActive === true) {
-        timerCount++
-
-        // Case 3: active > not
-        // deactivate timer at this time
-        previousActive = false
-        const timer: SonoffTimer = {
+        i++
+      }
+      if (timer.action == 'off') {
+        const time = timer.time
+        console.log(time + ':  off')
+        this.sonoffTimers[i] = {
           Arm: 1,
           Mode: 0,
-          Time: this.getLeadingZero(segment.time) + ':00',
-          Window: 5,
+          Time: timer.time,
+          Window: 0,
           Days: '1111111',
           Repeat: 1,
           Output: 1,
           Action: 0,
         }
-        this.sonoffTimers[timerCount] = timer
-      } else if (segment.active === false && previousActive === true) {
-        // Case 4: not > not
-        // change nothing
-        previousActive = false
-      } else {
-        //
+        i++
       }
     })
-    console.log('sonoffTimers', this.sonoffTimers)
   }
 
   cancel() {
