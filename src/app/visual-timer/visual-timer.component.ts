@@ -8,7 +8,7 @@ interface DaySegment {
   id: number
   time: number
   active: boolean
-  mode: 'night' | 'sunset-1' | 'sunset-2' | 'day' | 'sunrise-1' | 'sunrise-2'
+  mood: 'night' | 'sunset-1' | 'sunset-2' | 'day' | 'sunrise-1' | 'sunrise-2'
 }
 
 @Component({
@@ -93,7 +93,7 @@ export class VisualTimerComponent implements OnInit {
     }
   }
 
-  setColor(nr: number, mode) {
+  setSegmentColor(nr: number, mode) {
     let color: string
     switch (mode) {
       case 'day':
@@ -121,53 +121,53 @@ export class VisualTimerComponent implements OnInit {
     document.getElementById('hour-' + nr).style.fill = color
   }
 
-  setColors() {
+  setAllSegmentColors() {
     const sunriseHour = this.sunrise.getHours()
     const sunsetHour = this.sunset.getHours()
 
-    // set mode
+    // calculate lighting mood
     this.daySegments.map((segment: DaySegment) => {
-      let mode: 'night' | 'sunset-1' | 'sunset-2' | 'day' | 'sunrise-1' | 'sunrise-2'
+      let mood: 'night' | 'sunset-1' | 'sunset-2' | 'day' | 'sunrise-1' | 'sunrise-2'
       if (segment.time < sunriseHour) {
-        // night
-        mode = 'night'
+        mood = 'night'
       } else if (segment.time == sunriseHour) {
-        // sunrise 1
-        mode = 'sunrise-1'
+        mood = 'sunrise-1'
       } else if (segment.time == sunriseHour + 1) {
-        // sunrise 2
-        mode = 'sunrise-2'
+        mood = 'sunrise-2'
       } else if (segment.time > sunriseHour + 1 && segment.time < sunsetHour - 1) {
-        // day
-        mode = 'day'
+        mood = 'day'
       } else if (segment.time == sunsetHour - 1) {
-        // sunrise 1
-        mode = 'sunset-1'
+        mood = 'sunset-1'
       } else if (segment.time == sunsetHour) {
-        // sunrise 1
-        mode = 'sunset-2'
+        mood = 'sunset-2'
       } else if (segment.time > sunsetHour) {
-        // sunrise 1
-        mode = 'night'
+        mood = 'night'
       } else {
-        // day
+        //
       }
-      segment.mode = mode
+      segment.mood = mood
     })
 
-    // set Colors
+    // set colors for all segments
     this.daySegments.map((segment: DaySegment) => {
-      this.setColor(segment.id, segment.mode)
+      this.setSegmentColor(segment.id, segment.mood)
     })
   }
 
   /**
-   * Day Segment Width is 40
-   * 24h * 40  = 960 ticks
-   * minutes per day: 1440
-   * SVG Tick per Minutes: 960 / 1440 = 0.666
+   * setTimeMark()
    *
-   *  Example: 14.30 => 14h * 60m + 30m =  870m * 0.7 = 609
+   * Draws a line in DaySegment-SVG with actual time
+   *
+   * Position calculation:
+   *    Day Segment Width is 40
+   *    24h * 40  = 960 ticks
+   *    minutes per day: 1440
+   *    SVG Tick per Minutes: 960 / 1440 = 0.666
+   *
+   *    after some manual adjustments, best Ticks Factor is: 0.654
+   *
+   *    Example: 14.30 => 14h * 60m + 30m =  870m * 0.654 = 568.98
    *
    */
   setTimeMark() {
@@ -175,35 +175,39 @@ export class VisualTimerComponent implements OnInit {
     const hours = d.getHours()
     const minutes = d.getMinutes()
     const ticks = (hours * 60 + minutes) * 0.654 // ticks factor
-
     const lineHeight = 160
 
-    // Draw line
+    // position points
     const x1 = ticks
     const x2 = ticks
     const y1 = 1
     const y2 = lineHeight
     const cx = ticks
     const cy = 1
-    const time = this.getTimeStringFromDate(d)
 
+    // Current Time in format hh:mm
+    const timeString = this.getTimeStringFromDate(d)
+
+    // get Line ref
     const line = document.getElementById('line-now')
 
+    // transfom Line to new location
     line.style.stroke = 'white'
     line.setAttribute('x1', String(x1))
     line.setAttribute('x2', String(x2))
     line.setAttribute('y1', String(y1))
     line.setAttribute('y2', String(y2))
 
+    // draw some little Circle on top of the line
     const knop = document.getElementById('line-now-knob')
     knop.setAttribute('cx', String(cx))
     knop.setAttribute('cy', String(cy))
 
+    // Add text "hh:mm" on top of the line
     const timeText = document.getElementById('label-time-now')
     timeText.setAttribute('x', String(ticks - 25))
     timeText.setAttribute('y', '-15')
-
-    timeText.textContent = time
+    timeText.textContent = timeString
   }
 
   getMinutesLeadingZero(date) {
@@ -224,15 +228,25 @@ export class VisualTimerComponent implements OnInit {
     return h + ':' + min
   }
 
+  /**
+   * buildSegments()
+   *
+   * Generates an array of 24 segment-obj
+   * Each segment represents 1 hour of the day
+   * with:
+   *  - id: number
+   *  - time: number (n)
+   *  - mood: 'night' | 'sunset-1' | 'sunset-2' | 'day' | 'sunrise-1' | 'sunrise-2'
+   *  - active: boolean (if active: light on)
+   */
   buildSegments() {
     const daySegments: DaySegment[] = []
-    console.log('daySegments', daySegments)
 
     for (let i = 0; i < 24; i++) {
       const segment: DaySegment = {
         id: i,
         time: i,
-        mode: 'night',
+        mood: 'night',
         active: false,
       }
       daySegments.push(segment)
@@ -240,10 +254,18 @@ export class VisualTimerComponent implements OnInit {
     this.daySegments = daySegments
   }
 
+  /**
+   * updateSegments()
+   *
+   * matches the individual segments of the SVG
+   * with the information from this.daySegments
+   *
+   *
+   */
   updateSegments() {
     let actionActive = 0
     this.daySegments.map(segment => {
-      const stringTime = this.timeString(segment.id, 0)
+      const stringTime = this.getTimeString(segment.id, 0)
       let arm = 0
       let action = 0
       const timer = this.sonoffTimers.find(timer => timer.Time === stringTime)
@@ -275,9 +297,16 @@ export class VisualTimerComponent implements OnInit {
     })
   }
 
+  /**
+   * getDefaultTimers()
+   *
+   * returns an array of 16 SonoffTimer elements
+   * with their default settings
+   *
+   * @return sonoffTimer[]
+   */
   getDefaultTimers() {
     const sonoffTimers: SonoffTimer[] = []
-    console.log('sonoffTimers', sonoffTimers)
 
     for (let i = 0; i < 16; i++) {
       const sonoffTimer: SonoffTimer = {
@@ -295,19 +324,30 @@ export class VisualTimerComponent implements OnInit {
     return sonoffTimers
   }
 
+  /**
+   * resetSonoffTimers()
+   *
+   * replaces current sonoffTimers with
+   * new Array of SonoffTimers with default Settings
+   *
+   */
   resetSonoffTimers() {
     this.sonoffTimers = this.getDefaultTimers()
   }
 
   /**
+   * getSonoffTimers()
+   *
+   * returns SonoffTimer-Array
+   *
    * first:
-   * load sonoff Timers from Local Storage
-   * if Local Storage is empty, return default Timers
+   *    load sonoff Timers from Local Storage
+   *    if Local Storage is empty, return default Timers
    *
    * second:
-   * if mqtt service is available, it gets the timer from mqtt
+   *    if mqtt service is available, it gets the timers from mqtt
    *
-   *
+   * @return sonoffTimer[]
    */
   getSonoffTimers(): SonoffTimer[] {
     if (localStorage.getItem('sonoffTimers')) {
@@ -318,13 +358,20 @@ export class VisualTimerComponent implements OnInit {
     } else return this.getDefaultTimers()
   }
 
+  /**
+   * setTimers()
+   *
+   * converts the active segments into a sonoffTimer array
+   *
+   */
   setTimers() {
-    console.log('sonoffTimers', this.sonoffTimers)
-    let timers = []
     let previousActive = false
     let action: 'on' | 'off' | 'unchanged'
+    let timers: [{ time: string; action: 'on' | 'off' | 'unchanged' }]
+
+    // passes through all segments and creates a serial sequence of action commands
     this.daySegments.map(segment => {
-      // first
+      // only first segment
       if (segment.id == 0) {
         if (segment.active) {
           previousActive = true
@@ -360,10 +407,11 @@ export class VisualTimerComponent implements OnInit {
         time: this.getLeadingZero(segment.time) + ':00',
         action: action,
       }
+      // Add current Action to Timers
       timers.push(timer)
     })
-    console.log('timers', timers)
 
+    // reduces the 24 items from timers to those containing only changing actions
     this.resetSonoffTimers()
     let i = 0
     timers.map(timer => {
@@ -400,12 +448,21 @@ export class VisualTimerComponent implements OnInit {
     })
   }
 
+  /**
+   * cancel()
+   *
+   * cancels the current processing and resets everything to the previous settings
+   */
   cancel() {
     this.edit = false
-
     this.getSonoffTimers()
   }
 
+  /**
+   * clear()
+   *
+   * deletes current timer settings
+   */
   clear() {
     this.edit = false
     localStorage.removeItem('sonoffTimers')
@@ -414,6 +471,13 @@ export class VisualTimerComponent implements OnInit {
     this.updateSegments()
   }
 
+
+  /**
+   * save()
+   *
+   * saves current timer settings to local storage
+   * and send it to mqtt-server
+   */
   save() {
     this.edit = false
 
@@ -423,7 +487,15 @@ export class VisualTimerComponent implements OnInit {
     //  this.publishSonoffTimers()
   }
 
-  timeString(hours, minutes) {
+  /**
+   * getTimeString(hours, minutes)
+   *
+   * returns "hh:mm"
+   *
+   * @param hours
+   * @param minutes
+   */
+  getTimeString(hours, minutes) {
     return this.getLeadingZero(hours) + ':' + this.getLeadingZero(minutes)
   }
 
@@ -437,7 +509,7 @@ export class VisualTimerComponent implements OnInit {
       this.sunsetTime = this.getTimeStringFromDate(this.sunset)
       this.sunriseTime = this.getTimeStringFromDate(this.sunrise)
 
-      this.setColors()
+      this.setAllSegmentColors()
       this.setTimeMark()
       this.updateSegments()
     })
