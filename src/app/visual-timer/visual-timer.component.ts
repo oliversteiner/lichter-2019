@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { getSunrise, getSunset } from 'sunrise-sunset-js'
+import { SonoffTimer } from '../_models/sonoffTimer'
+// import { faCheck, faTimes, faSpinner, faTrash} from '@fortawesome/pro-light-svg-icons';
+import { faCheck, faTimes, faSpinner, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 interface DaySegment {
   id: number
@@ -16,6 +19,12 @@ interface DaySegment {
 export class VisualTimerComponent implements OnInit {
   private sunset: Date
   private sunrise: Date
+
+  // icons
+  iconSave = faCheck
+  iconCancel = faTimes
+  iconClear = faTrash
+  iconSpinner = faSpinner
 
   sunsetTime = '00:00'
   sunriseTime = '00:00'
@@ -36,8 +45,11 @@ export class VisualTimerComponent implements OnInit {
   circleOpacityInactive = '0.2'
 
   daySegments: DaySegment[] = []
+  private sonoffTimers: SonoffTimer[]
+  private edit = false
 
   click(nr: number) {
+    this.edit = true
     this.toggleActivity(nr)
   }
 
@@ -150,18 +162,19 @@ export class VisualTimerComponent implements OnInit {
   }
 
   /**
-   * Day Segment Width : 40
-   * 24 * 40   = 960
+   * Day Segment Width is 40
+   * 24h * 40  = 960 ticks
    * minutes per day: 1440
    * SVG Tick per Minutes: 960 / 1440 = 0.666
    *
-   *  14.30 => 14h * 60m + 30m =  870m * 0.7 = 609
+   *  Example: 14.30 => 14h * 60m + 30m =  870m * 0.7 = 609
+   *
    */
   setTimeMark() {
     const d = new Date()
     const hours = d.getHours()
     const minutes = d.getMinutes()
-    const ticks = (hours * 60 + minutes) * 0.666
+    const ticks = (hours * 60 + minutes) * 0.654 // ticks factor
 
     const lineHeight = 160
 
@@ -172,7 +185,7 @@ export class VisualTimerComponent implements OnInit {
     const y2 = lineHeight
     const cx = ticks
     const cy = 1
-    const time = this.timeString(d)
+    const time = this.getTimeStringFromDate(d)
 
     const line = document.getElementById('line-now')
 
@@ -193,17 +206,21 @@ export class VisualTimerComponent implements OnInit {
     timeText.textContent = time
   }
 
-  minutes(date) {
-    return (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
+  getMinutesLeadingZero(date) {
+    return this.getLeadingZero(date.getMinutes())
   }
 
-  hours(date) {
-    return (date.getHours() < 10 ? '0' : '') + date.getHours()
+  getHoursLeadingZero(date) {
+    return this.getLeadingZero(date.getHours())
   }
 
-  timeString(date) {
-    const h = this.hours(date)
-    const min = this.minutes(date)
+  getLeadingZero(nr: number) {
+    return (nr < 10 ? '0' : '') + nr
+  }
+
+  getTimeStringFromDate(date) {
+    const h = this.getHoursLeadingZero(date)
+    const min = this.getMinutesLeadingZero(date)
     return h + ':' + min
   }
 
@@ -220,20 +237,212 @@ export class VisualTimerComponent implements OnInit {
       }
       daySegments.push(segment)
     }
-    return daySegments
+    this.daySegments = daySegments
+  }
+
+  updateSegments() {
+    let actionActive = 0
+    this.daySegments.map(segment => {
+      const stringTime = this.timeString(segment.id, 0)
+      let arm = 0
+      let action = 0
+      const timer = this.sonoffTimers.find(timer => timer.Time === stringTime)
+      if (timer) {
+        console.log('timer', timer)
+        arm = timer.Arm
+        action = timer.Action
+      }
+      console.log('arm', arm)
+      console.log('actionActive', actionActive)
+
+      if (arm == 1) {
+        if (action) {
+          this.daySegments[segment.id].active = true
+          this.setActive(segment.id)
+          actionActive = 1
+        } else {
+          this.daySegments[segment.id].active = false
+          this.setInactive(segment.id)
+          actionActive = 0
+        }
+      } else {
+        if (actionActive) {
+          this.daySegments[segment.id].active = true
+          this.setActive(segment.id)
+          actionActive = 1
+        }
+      }
+    })
+  }
+
+  getDefaultTimers() {
+    const sonoffTimers: SonoffTimer[] = []
+    console.log('sonoffTimers', sonoffTimers)
+
+    for (let i = 0; i < 16; i++) {
+      const sonoffTimer: SonoffTimer = {
+        Arm: 0,
+        Mode: 0,
+        Time: '00:00',
+        Window: 0,
+        Days: '0000000',
+        Repeat: 0,
+        Output: 0,
+        Action: 0,
+      }
+      sonoffTimers.push(sonoffTimer)
+    }
+    return sonoffTimers
+  }
+
+  resetSonoffTimers() {
+    this.sonoffTimers = this.getDefaultTimers()
+  }
+
+  /**
+   * first:
+   * load sonoff Timers from Local Storage
+   * if Local Storage is empty, return default Timers
+   *
+   * second:
+   * if mqtt service is available, it gets the timer from mqtt
+   *
+   *
+   */
+  getSonoffTimers(): SonoffTimer[] {
+    if (localStorage.getItem('sonoffTimers')) {
+      const data: SonoffTimer[] = JSON.parse(localStorage.getItem('sonoffTimers'))
+      if (data.length != 0) {
+        return data
+      } else return this.getDefaultTimers()
+    } else return this.getDefaultTimers()
+  }
+
+  setTimers() {
+    console.log('sonoffTimers', this.sonoffTimers)
+
+    let previousActive = false
+    let timerCount = 0
+    this.daySegments.map(segment => {
+      // Case 1
+      // not > active
+      // activate timer at this time
+
+      // Case 2
+      // active > active
+      // change nothing
+
+      // Case 3
+      // active > not
+      // deactivate timer at this time
+
+      // Case 4
+      // not > not
+      // change nothing
+
+      //  First ans last segment
+      if (segment.id === 0 || segment.id === 23) {
+        previousActive = segment.active
+        const timer: SonoffTimer = {
+          Arm: Number(segment.active),
+          Mode: 0,
+          Time: this.getLeadingZero(segment.time) + ':00',
+          Window: 5,
+          Days: '1111111',
+          Repeat: 1,
+          Output: 1,
+          Action: Number(segment.active),
+        }
+        this.sonoffTimers[0] = timer
+      } else if (segment.active === true && previousActive === false) {
+        // Case 1
+        // not > active
+        // activate timer at this time
+        timerCount++
+        previousActive = true
+        const timer: SonoffTimer = {
+          Arm: 1,
+          Mode: 0,
+          Time: this.getLeadingZero(segment.time) + ':00',
+          Window: 5,
+          Days: '1111111',
+          Repeat: 1,
+          Output: 1,
+          Action: 1,
+        }
+        this.sonoffTimers[timerCount] = timer
+      } else if (segment.active === true && previousActive === true) {
+        // Case 2 : active > active
+        // change nothing
+        previousActive = true
+      } else if (segment.active === false && previousActive === true) {
+        timerCount++
+
+        // Case 3: active > not
+        // deactivate timer at this time
+        previousActive = false
+        const timer: SonoffTimer = {
+          Arm: 1,
+          Mode: 0,
+          Time: this.getLeadingZero(segment.time) + ':00',
+          Window: 5,
+          Days: '1111111',
+          Repeat: 1,
+          Output: 1,
+          Action: 0,
+        }
+        this.sonoffTimers[timerCount] = timer
+      } else if (segment.active === false && previousActive === true) {
+        // Case 4: not > not
+        // change nothing
+        previousActive = false
+      } else {
+        //
+      }
+    })
+    console.log('sonoffTimers', this.sonoffTimers)
+  }
+
+  cancel() {
+    this.edit = false
+
+    this.getSonoffTimers()
+  }
+
+  clear() {
+    this.edit = false
+    localStorage.removeItem('sonoffTimers')
+    this.resetSonoffTimers()
+    this.buildSegments()
+    this.updateSegments()
+  }
+
+  save() {
+    this.edit = false
+
+    this.setTimers()
+    localStorage.setItem('sonoffTimers', JSON.stringify(this.sonoffTimers))
+
+    //  this.publishSonoffTimers()
+  }
+
+  timeString(hours, minutes) {
+    return this.getLeadingZero(hours) + ':' + this.getLeadingZero(minutes)
   }
 
   ngOnInit(): void {
-    this.daySegments = this.buildSegments()
+    this.sonoffTimers = this.getSonoffTimers()
+    this.buildSegments()
     navigator.geolocation.getCurrentPosition(position => {
       this.sunset = getSunset(position.coords.latitude, position.coords.longitude)
       this.sunrise = getSunrise(position.coords.latitude, position.coords.longitude)
 
-      this.sunsetTime = this.timeString(this.sunset)
-      this.sunriseTime = this.timeString(this.sunrise)
+      this.sunsetTime = this.getTimeStringFromDate(this.sunset)
+      this.sunriseTime = this.getTimeStringFromDate(this.sunrise)
 
       this.setColors()
       this.setTimeMark()
+      this.updateSegments()
     })
   }
 }

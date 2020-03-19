@@ -1,3 +1,6 @@
+@import "./../../colors";
+
+
 .row {
   display: flex;
   justify-content: space-between;
@@ -90,4 +93,69 @@
   fill: #fff;
   font-weight: 300;
   letter-spacing: 0.05rem;
+}
+
+
+
+.clear,
+.save,
+.cancel {
+  cursor: pointer;
+  font-size: 30px;
+  padding: 10px;
+  margin: 10px;
+  color: $color-border;
+
+  &:hover {
+    color: $color-error;
+  }
+
+  &:active {
+    color: $color-text;
+  }
+}
+
+.save {
+  color: $color-success;
+
+  &:hover {
+    color: #00e046;
+  }
+
+  &:active {
+    color: $color-text;
+  }
+}
+
+.unselectable {
+  user-select: none;
+}
+
+.save-cancel-container {
+ // display: none;
+  display: flex;
+  justify-content: center;
+  &.active {
+    display: flex;
+    justify-content: center;
+
+  }
+}
+.current-timers ul{
+  margin: 0;
+  padding: 0;
+
+  li{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.current-timers-item{
+  display: flex;
+  padding-bottom: 5px;
+  .time{
+    margin-right: 20px;
+  }
 }

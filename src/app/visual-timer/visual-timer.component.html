@@ -4,11 +4,11 @@
   <table class="sunrise-sunset">
     <tr class="sunrise">
       <th>Sonnenaufgang</th>
-      <td>{{sunriseTime}}</td>
+      <td>{{ sunriseTime }}</td>
     </tr>
     <tr class="sunset">
       <th>Sonnenuntergang</th>
-      <td>{{sunsetTime}}</td>
+      <td>{{ sunsetTime }}</td>
     </tr>
   </table>
 </div>
@@ -662,4 +662,43 @@
       </g>
     </g>
   </svg>
+
+  <!-- Save and Cancel -->
+  <div class="row-max save-cancel-container" [class.active]="edit">
+    <div class="row">
+      <!-- clear -->
+      <div class="clear" (click)="clear()">
+        <fa-icon [icon]="iconClear"></fa-icon>
+      </div>
+
+      <!-- cancel -->
+      <div class="cancel" (click)="cancel()">
+        <fa-icon [icon]="iconCancel"></fa-icon>
+      </div>
+
+      <!-- save -->
+      <div class="save" (click)="save()">
+        <fa-icon [icon]="iconSave"></fa-icon>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Debug Current Timers -->
+<div class="current-timers">
+  <ul>
+    <li *ngFor="let timer of sonoffTimers">
+      <!-- Timer armed -->
+      <div *ngIf="timer.Arm != 0" class="current-timers-item">
+        <!-- Time -->
+        <div class="time">{{ timer.Time }}</div>
+
+        <!-- Action -->
+        <div class="action">
+          <span *ngIf="timer.Action == 0">off</span>
+          <span *ngIf="timer.Action == 1">on</span>
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>
