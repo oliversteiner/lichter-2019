@@ -27,7 +27,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "core-js": "^2.6.11",
     "ngx-mqtt": "^6.14.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "rxjs": "^6.5.5",
     "tslib": "^1.14.1",
     "zone.js": "^0.10.3"
